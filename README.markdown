@@ -152,6 +152,34 @@ Should work, if not try
     chmod -R 777 app/storage
 
 
+
+### Step 9: Application Specific Configuration.
+
+Two writeable directories are required for the application. A repository path (likely a network share in production) and a DAW pickup directory.
+
+The repository path will be used to store supporting artefacts for the carrier, including box cover photos, transcripts, photos of the carrier itself, scanned documents etc.
+
+The repository path needs to be set in ***app/config/app.php*** (or the respective environment folder - local, staging, production etc.).
+
+The DAW pickup folder is the location from which the digital audio workstation will pickup an XML manifest for this job - including archive idendifier (or PID).
+
+An example configuration setting can be found in ***app/config/app.php*** and ***app/config/local/app.php***:
+
+    /*
+    |--------------------------------------------------------------------------
+    | Application Specific Settings
+    |--------------------------------------------------------------------------
+    |
+    | Settings here are specific to the digitization workflow application, 
+    | incuding repository location, digitial audio workstation pick-up location
+    | etc.
+    |
+    */
+
+    'repository' => '/var/archworkflow/data/repository/',
+    'dawpickup'  => '/var/archworkflow/data/dawpickup/',
+
+
 ### Production Launch
 
 By default debugging is enabled. Before you go to production you should disable debugging in `app/config/app.php`

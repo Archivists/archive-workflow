@@ -116,6 +116,8 @@ return array(
 		'Zizaco\Confide\ConfideServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
 		'Bllim\Datatables\DatatablesServiceProvider',
+		'ArchWorkflow\DawPickupServiceProvider',
+    	'ArchWorkflow\FileRepositoryServiceProvider',
 
 	),
 
@@ -184,6 +186,8 @@ return array(
 		'Confide'         => 'Zizaco\Confide\ConfideFacade',
 		'Entrust'         => 'Zizaco\Entrust\EntrustFacade',
 		'Datatables'      => 'Bllim\Datatables\Datatables',
+		'DawPickup'		  => 'ArchWorkflow\DawPickup',
+    	'FileRepository'  => 'ArchWorkflow\FileRepository',
 	),
 
 );

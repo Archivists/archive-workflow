@@ -116,6 +116,8 @@ return array(
 		'Zizaco\Confide\ConfideServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
 		'Bllim\Datatables\DatatablesServiceProvider',
+		'ArchWorkflow\DawPickupServiceProvider',
+    	'ArchWorkflow\FileRepositoryServiceProvider',
 
 	),
 
