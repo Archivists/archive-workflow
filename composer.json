@@ -7,7 +7,8 @@
 		"zizaco/confide": "dev-master",
 		"zizaco/entrust": "dev-master",
 		"j20/php-uuid": "dev-master",
-        "bllim/datatables": "*"
+        "bllim/datatables": "*",
+        "imagine/imagine": "~0.6.0"
 	},
 	"require-dev": {
         "phpunit/phpunit": "3.7.*",

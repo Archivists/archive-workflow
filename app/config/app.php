@@ -118,6 +118,7 @@ return array(
 		'Bllim\Datatables\DatatablesServiceProvider',
 		'ArchWorkflow\DawPickupServiceProvider',
     	'ArchWorkflow\FileRepositoryServiceProvider',
+    	'ArchWorkflow\ImageServiceProvider',
 
 	),
 
@@ -188,6 +189,7 @@ return array(
 		'Datatables'      => 'Bllim\Datatables\Datatables',
 		'DawPickup'		  => 'ArchWorkflow\DawPickup',
     	'FileRepository'  => 'ArchWorkflow\FileRepository',
+    	'Image'  	 	  => 'ArchWorkflow\Image',
 	),
 
 );
