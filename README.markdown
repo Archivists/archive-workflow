@@ -1,4 +1,4 @@
-#A Carrier Transfer Workflow Application
+#Digitization Workflow
 
 This is a simple job tracking application for the transfer (digitization), of carriers - whether open reel tape, audio cassette, or video tapes.
 
