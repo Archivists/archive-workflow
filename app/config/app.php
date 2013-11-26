@@ -186,6 +186,8 @@ return array(
 		'Confide'    	  => 'Zizaco\Confide\ConfideFacade',
 		'Entrust'         => 'Zizaco\Entrust\EntrustFacade',
 		'Datatables'      => 'Bllim\Datatables\Datatables',
+		'DawPickup'		  => 'ArchWorkflow\DawPickup',
+    	'FileRepository'  => 'ArchWorkflow\FileRepository',
 	),
 
 );
