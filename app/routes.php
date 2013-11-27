@@ -17,7 +17,8 @@
  */
 Route::model('users', 'User');
 Route::model('roles', 'Role');
-//Route model binding makes controller testing hard with Mockery.
+//Route model binding makes controller testing hard with Mockery
+//so we're performing our get by id in the controller.
 //Route::model('widgets', 'Widget');
 
 // Home route
@@ -40,6 +41,47 @@ Route::get( 'user/logout',                 'UserController@logout');
 // Secure-Routes
 Route::group(array('before' => 'auth'), function()
 {
+    
+	/** ------------------------------------------
+ 	*  Carriers
+ 	*  ------------------------------------------
+ 	*/
+
+	// Datatables Ajax route.
+	// NOTE: We must define this route first as it is more specific than
+	// the default show resource route for /carriers/{carriers}
+	Route::get('carriers/data', 'CarrierController@data');
+	
+	// Pre-baked resource controller actions for index, create, store, 
+	// show, edit, update, destroy
+	Route::resource('carriers', 'CarrierController');
+	
+	// Our special delete confirmation route - uses the show/details view.
+	// NOTE: For model biding above to work - the plural paramameter {carriers} needs
+	// to be used.
+	Route::get('carriers/{carriers}/delete', 		'CarrierController@delete');
+
+
+	/** ------------------------------------------
+ 	*  CarrierTypes
+ 	*  ------------------------------------------
+ 	*/
+
+	// Datatables Ajax route.
+	// NOTE: We must define this route first as it is more specific than
+	// the default show resource route for /carriers/{carriers}
+	Route::get('carrier-types/data', 'CarrierTypeController@data');
+	
+	// Pre-baked resource controller actions for index, create, store, 
+	// show, edit, update, destroy
+	Route::resource('carrier-types', 'CarrierTypeController');
+	
+	// Our special delete confirmation route - uses the show/details view.
+	// NOTE: For model biding above to work - the plural paramameter {carriers} needs
+	// to be used.
+	Route::get('carrier-types/{carrierTypeID}/delete', 	'CarrierTypeController@delete');
+
+
     /** ------------------------------------------
  	*  Widgets
  	*  ------------------------------------------
