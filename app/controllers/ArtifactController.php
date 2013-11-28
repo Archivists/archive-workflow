@@ -53,9 +53,9 @@ class ArtifactController extends BaseController
      */
     public function show($carrier_id, $id)
     {
-        $artifact = $this->artifact->find($id);
+        $artifact = $this->artifact->where('id','=',$id)->where('carrier_id', '=', $carrier_id)->first();
 
-        if ($artifact) {
+        if ($artifact->id) {
             // Title
             $title = Lang::get('artifact/title.artifact_show');
 
@@ -103,6 +103,7 @@ class ArtifactController extends BaseController
             // Get the inputs, with some exceptions
             $inputs = Input::except('csrf_token');
 
+            $this->artifact->carrier_id = $carrier_id;
             $this->artifact->name = $inputs['name'];
             //$this->artifact->description = $inputs['description'];
 
@@ -129,9 +130,9 @@ class ArtifactController extends BaseController
      */
     public function edit($carrier_id, $id)
     {
-        $artifact = $this->artifact->find($id);
+        $artifact = $this->artifact->where('id', '=', $id)->where('carrier_id', '=', $carrier_id)->first();;
 
-        if ($artifact->id) {
+        if ($artifact) {
 
         } else {
             // Redirect to the artifact management page
@@ -153,7 +154,7 @@ class ArtifactController extends BaseController
      */
     public function update($carrier_id, $id)
     {
-        $artifact = $this->artifact->find($id);
+        $artifact = $this->artifact->where('id', '=', $id)->where('carrier_id', '=', $carrier_id)->first();;
 
         $rules = array(
                 'name'=> 'required|alpha_dash|unique:artifacts,name,' . $artifact->id
@@ -169,6 +170,7 @@ class ArtifactController extends BaseController
             $inputs = Input::except('csrf_token');
 
             $artifact->name = $inputs['name'];
+            $artifact->carrier_id = $carrier_id;
             //$artifact->description = $inputs['description'];
 
             // Was the artifact updated?
@@ -193,12 +195,12 @@ class ArtifactController extends BaseController
      */
     public function delete($carrier_id, $id)
     {
-        $artifact = $this->artifact->find($id);
+        $artifact = $this->artifact->where('id', '=', $id)->where('carrier_id', '=', $carrier_id)->first();;
 
         // Title
         $title = Lang::get('artifact/title.artifact_delete');
 
-        if ($artifact->id) {
+        if ($artifact) {
 
         } else {
             // Redirect to the artifact management page
@@ -216,7 +218,7 @@ class ArtifactController extends BaseController
      */
     public function destroy($carrier_id, $id)
     {
-        $artifact = $this->artifact->find($id);
+        $artifact = $this->artifact->where('id', '=', $id)->where('carrier_id', '=', $carrier_id)->first();;
 
         // Was the artifact deleted?
         if ($artifact->delete()) {
@@ -236,7 +238,7 @@ class ArtifactController extends BaseController
     public function data($carrier_id)
     {
         //Make this method testable and mockable by using our injected $artifact member.
-        $artifacts = $this->artifact->select(array('artifacts.id',  'artifacts.name', 'artifacts.created_at'));
+        $artifacts = $this->artifact->select(array('artifacts.id',  'artifacts.name', 'artifacts.created_at'))->where('carrier_id', '=', $carrier_id);
 
         return Datatables::of($artifacts)
         // ->edit_column('created_at','{{{ Carbon::now()->diffForHumans(Carbon::createFromFormat(\'Y-m-d H\', $test)) }}}')

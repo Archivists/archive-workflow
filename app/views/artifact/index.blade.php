@@ -12,6 +12,7 @@
 			{{{ $title }}} for {{{ $carrier_id }}}
 
 			<div class="pull-right">
+				<a href="{{{ URL::to('carriers/' . $carrier_id) }}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-arrow-left"></span> Back </a>
 				<a href="{{{ URL::to('carriers/' . $carrier_id . '/artifacts/create') }}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span> Create New Artifact </a>
 			</div>
 		</h3>
