@@ -37,13 +37,13 @@ class ArtifactController extends BaseController
      *
      * @return Response
      */
-    public function index()
+    public function index($carrier_id)
     {
         // Title
         $title = Lang::get('artifact/title.artifact_management');
 
         // Show the page
-        return View::make('artifact/index', compact('title'));
+        return View::make('artifact/index', compact('carrier_id', 'title'));
     }
 
     /**
@@ -51,20 +51,20 @@ class ArtifactController extends BaseController
      *
      * @return View
      */
-    public function show($id)
+    public function show($carrier_id, $id)
     {
         $artifact = $this->artifact->find($id);
 
-        if ($artifact->id) {
+        if ($artifact) {
             // Title
             $title = Lang::get('artifact/title.artifact_show');
 
             // Show the page
-            return View::make('artifact/show', compact('artifact', 'title'));
+            return View::make('artifact/show', compact('carrier_id', 'artifact', 'title'));
 
         } else {
             // Redirect to the artifact management page
-            return Redirect::to('artifacts')->with('error', Lang::get('artifact/messages.does_not_exist'));
+            return Redirect::to('carriers/' . $carrier_id. '/artifacts')->with('error', Lang::get('artifact/messages.does_not_exist'));
         }
     }
 
@@ -73,13 +73,13 @@ class ArtifactController extends BaseController
      *
      * @return Response
      */
-    public function create()
+    public function create($carrier_id)
     {
         // Title
         $title = Lang::get('artifact/title.create_a_new_artifact');
 
         // Show the page
-        return View::make('artifact/create', compact('title'));
+        return View::make('artifact/create', compact('carrier_id', 'title'));
     }
 
     /**
@@ -87,7 +87,7 @@ class ArtifactController extends BaseController
      *
      * @return Response
      */
-    public function store()
+    public function store($carrier_id)
     {
         // Validate the inputs
         $rules = array(
@@ -108,16 +108,16 @@ class ArtifactController extends BaseController
 
             if ($this->artifact->save($rules)) {
                 // Redirect to the new artifact page
-                return Redirect::to('artifacts')->with('success', Lang::get('artifact/messages.create.success'));
+                return Redirect::to('carriers/' . $carrier_id. '/artifacts')->with('success', Lang::get('artifact/messages.create.success'));
 
             } else {
                 // Redirect to the artifact create page
                 //var_dump($this->artifact);
-                return Redirect::to('artifacts/create')->with('error', Lang::get('artifact/messages.create.error'));
+                return Redirect::to('carriers/' . $carrier_id. '/artifacts/create')->with('error', Lang::get('artifact/messages.create.error'));
             }
         } else {
             // Form validation failed
-            return Redirect::to('artifacts/create')->withInput()->withErrors($validator);
+            return Redirect::to('carriers/' . $carrier_id. '/artifacts/create')->withInput()->withErrors($validator);
         }
     }
 
@@ -127,7 +127,7 @@ class ArtifactController extends BaseController
      * @param $artifact
      * @return Response
      */
-    public function edit($id)
+    public function edit($carrier_id, $id)
     {
         $artifact = $this->artifact->find($id);
 
@@ -135,14 +135,14 @@ class ArtifactController extends BaseController
 
         } else {
             // Redirect to the artifact management page
-            return Redirect::to('artifacts')->with('error', Lang::get('artifact/messages.does_not_exist'));
+            return Redirect::to('carriers/' . $carrier_id. '/artifacts')->with('error', Lang::get('artifact/messages.does_not_exist'));
         }
 
         // Title
         $title = Lang::get('artifact/title.artifact_update');
 
         // Show the page
-        return View::make('artifact/edit', compact('artifact', 'title'));
+        return View::make('artifact/edit', compact('carrier_id', 'artifact', 'title'));
     }
 
     /**
@@ -151,7 +151,7 @@ class ArtifactController extends BaseController
      * @param $artifact
      * @return Response
      */
-    public function update($id)
+    public function update($carrier_id, $id)
     {
         $artifact = $this->artifact->find($id);
 
@@ -174,14 +174,14 @@ class ArtifactController extends BaseController
             // Was the artifact updated?
             if ($artifact->save($rules)) {
                 // Redirect to the artifact page
-                return Redirect::to('artifacts/' . $artifact->id . '/edit')->with('success', Lang::get('artifact/messages.update.success'));
+                return Redirect::to('carriers/' . $carrier_id. '/artifacts/' . $artifact->id . '/edit')->with('success', Lang::get('artifact/messages.update.success'));
             } else {
                 // Redirect to the artifact page
-                return Redirect::to('artifacts/' . $artifact->id . '/edit')->with('error', Lang::get('artifact/messages.update.error'));
+                return Redirect::to('carriers/' . $carrier_id. '/artifacts/' . $artifact->id . '/edit')->with('error', Lang::get('artifact/messages.update.error'));
             }
         } else {
             // Form validation failed
-            return Redirect::to('artifacts/' . $artifact->id . '/edit')->withInput()->withErrors($validator);
+            return Redirect::to('carriers/' . $carrier_id. '/artifacts/' . $artifact->id . '/edit')->withInput()->withErrors($validator);
         }
     }
 
@@ -191,7 +191,7 @@ class ArtifactController extends BaseController
      * @param $artifact
      * @return Response
      */
-    public function delete($id)
+    public function delete($carrier_id, $id)
     {
         $artifact = $this->artifact->find($id);
 
@@ -202,11 +202,11 @@ class ArtifactController extends BaseController
 
         } else {
             // Redirect to the artifact management page
-            return Redirect::to('artifacts')->with('error', Lang::get('artifact/messages.does_not_exist'));
+            return Redirect::to('carriers/' . $carrier_id. '/artifacts')->with('error', Lang::get('artifact/messages.does_not_exist'));
         }
 
         // Show the record
-        return View::make('artifact/delete', compact('artifact', 'title'));
+        return View::make('carriers/' . $carrier_id. '/artifacts/delete', compact('carrier_id', 'artifact', 'title'));
     }
 
     /**
@@ -214,18 +214,18 @@ class ArtifactController extends BaseController
      * @internal param $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy($carrier_id, $id)
     {
         $artifact = $this->artifact->find($id);
 
         // Was the artifact deleted?
         if ($artifact->delete()) {
             // Redirect to the artifact management page
-            return Redirect::to('artifacts')->with('success', Lang::get('artifact/messages.delete.success'));
+            return Redirect::to('carriers/' . $carrier_id. '/artifacts')->with('success', Lang::get('artifact/messages.delete.success'));
         }
 
         // There was a problem deleting the artifact
-        return Redirect::to('artifacts')->with('error', Lang::get('artifact/messages.delete.error'));
+        return Redirect::to('carriers/' . $carrier_id. '/artifacts')->with('error', Lang::get('artifact/messages.delete.error'));
     }
 
     /**
@@ -233,7 +233,7 @@ class ArtifactController extends BaseController
      *
      * @return Datatables JSON
      */
-    public function data()
+    public function data($carrier_id)
     {
         //Make this method testable and mockable by using our injected $artifact member.
         $artifacts = $this->artifact->select(array('artifacts.id',  'artifacts.name', 'artifacts.created_at'));
@@ -246,9 +246,9 @@ class ArtifactController extends BaseController
                     Action <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{{ URL::to(\'artifacts/\' . $id ) }}}">{{{ Lang::get(\'button.show\') }}}</a></li>
-                    <li><a href="{{{ URL::to(\'artifacts/\' . $id . \'/edit\' ) }}}">{{{ Lang::get(\'button.edit\') }}}</a></li>
-                    <li><a href="{{{ URL::to(\'artifacts/\' . $id . \'/delete\' ) }}}">{{{ Lang::get(\'button.delete\') }}}</a></li>
+                    <li><a href="{{{ URL::to(\'carriers/' . $carrier_id. '/artifacts/\' . $id ) }}}">{{{ Lang::get(\'button.show\') }}}</a></li>
+                    <li><a href="{{{ URL::to(\'carriers/' . $carrier_id. '/artifacts/\' . $id . \'/edit\' ) }}}">{{{ Lang::get(\'button.edit\') }}}</a></li>
+                    <li><a href="{{{ URL::to(\'carriers/' . $carrier_id. '/artifacts/\' . $id . \'/delete\' ) }}}">{{{ Lang::get(\'button.delete\') }}}</a></li>
                   </ul>
                 </div>')
 

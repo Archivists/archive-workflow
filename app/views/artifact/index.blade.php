@@ -9,10 +9,10 @@
 @section('content')
 	<div class="page-header">
 		<h3>
-			{{{ $title }}}
+			{{{ $title }}} for {{{ $carrier_id }}}
 
 			<div class="pull-right">
-				<a href="{{{ URL::to('artifacts/create') }}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span> Create New Artifact</a>
+				<a href="{{{ URL::to('carriers/' . $carrier_id . '/artifacts/create') }}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span> Create New Artifact </a>
 			</div>
 		</h3>
 	</div>
@@ -48,7 +48,7 @@
 				},
 				"bProcessing": true,
 		        "bServerSide": true,
-		        "sAjaxSource": "{{ URL::to('artifacts/data') }}"
+		        "sAjaxSource": "{{ URL::to('carriers/' . $carrier_id . '/artifacts/data') }}"
 			});
 
 			$("#roles_filter input").addClass("form-control inline-control input-sm");

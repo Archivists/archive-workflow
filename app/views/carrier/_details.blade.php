@@ -23,6 +23,7 @@
 		@if ($action == 'show')
 			<a href="{{{ URL::to('carriers') }}}" class="btn btn-primary">Close</a>
 			<a href="{{{ URL::to('carriers/' . $carrier->id . '/edit') }}}" class="btn btn-primary">Edit Widget</a>
+			<a href="{{{ URL::to('carriers/' . $carrier->id . '/artifacts') }}}" class="btn btn-primary">Manage Artifacts</a>
 		@else
 			<a href="{{{ URL::to('carriers') }}}" class="btn btn-primary">Cancel</a>
 			<button type="submit" class="btn btn-danger">Delete</button>
