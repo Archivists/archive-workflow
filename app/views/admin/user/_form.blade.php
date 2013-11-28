@@ -17,7 +17,7 @@
 			</div>
 			<!-- ./ username -->
 
-			<!-- username -->
+			<!-- fullname -->
 			<div class="form-group {{{ $errors->has('fullname') ? 'has-error' : '' }}}">
 				<label class="control-label" for="fullname">Full Name</label>
 				<div class="controls">
@@ -25,7 +25,7 @@
 					<span class="help-block">{{{ $errors->first('fullname', ':message') }}}</span>
 				</div>
 			</div>
-			<!-- ./ username -->
+			<!-- ./ fullname -->
 
 			<!-- Email -->
 			<div class="form-group {{{ $errors->has('email') ? 'has-error' : '' }}}">
@@ -79,7 +79,7 @@
 			</div>
 			<!-- ./ activation status -->
 
-			<!-- Groups -->
+			<!-- roles -->
 			<div class="form-group {{{ $errors->has('roles') ? 'has-error' : '' }}}">
 		        <label class="control-label" for="roles">Roles</label>
 		        <div class="controls">
@@ -98,7 +98,7 @@
 					</span>
 		    	</div>
 			</div>
-			<!-- ./ groups --> 
+			<!-- ./ roles --> 
   		</div>
 	</div>
 		

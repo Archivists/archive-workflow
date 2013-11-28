@@ -4,10 +4,6 @@
 | Carrier Controller
 |--------------------------------------------------------------------------
 |
-| An example controller that uses the pre-baked RESTful resource controller
-| actions for index, create, store, show, edit, update, destroy, as well as a
-| delete method to show the record before deletion.
-|
 | See routes.php  ->
 | Route::resource('carrier', 'CarrierController');
 | Route::get('carrier/{carrier}/delete', 'CarrierController@delete');
@@ -23,13 +19,20 @@ class CarrierController extends BaseController
     protected $carrier;
 
     /**
+     * CarrierType Model
+     * @var CarrierType
+     */
+    protected $carrierType;
+
+    /**
      * Inject the model.
      * @param Carrier $carrier
      */
-    public function __construct(Carrier $carrier)
+    public function __construct(Carrier $carrier, CarrierType $carrierType)
     {
         parent::__construct();
         $this->carrier = $carrier;
+        $this->carrierType = $carrierType;
     }
 
     /**
@@ -82,8 +85,14 @@ class CarrierController extends BaseController
         // Title
         $title = Lang::get('carrier/title.create_a_new_carrier');
 
+        // All carrier types
+        $carrierTypes = $this->carrierType->all();
+
+        // Selected carrier type
+        $selectedType = Input::old('carrier-type', array());
+
         // Show the page
-        return View::make('carrier/create', compact('title'));
+        return View::make('carrier/create', compact('title', 'carrierTypes', 'selectedType'));
     }
 
     /**
@@ -95,28 +104,41 @@ class CarrierController extends BaseController
     {
         // Validate the inputs
         $rules = array(
-            'shelf_number'=> 'required|alpha_dash|unique:carriers,shelf_number'
+            'shelf_number'=> 'required|alpha_dash|unique:carriers,shelf_number',
+            'carrier_type'=> 'required'
             );
-
+        
         // Validate the inputs
         $validator = Validator::make(Input::all(), $rules);
 
         // Check if the form validates with success
         if ($validator->passes()) {
+            
             // Get the inputs, with some exceptions
             $inputs = Input::except('csrf_token');
 
-            $this->carrier->shelf_number = $inputs['shelf_number'];
-            $this->carrier->save($rules);
+            $carrierType = $this->carrierType->find($inputs['carrier_type']);
 
-            if ($this->carrier->id) {
-                // Redirect to the new carrier page
-                return Redirect::to('carriers')->with('success', Lang::get('carrier/messages.create.success'));
+            if ($carrierType) {
 
-            } else {
+                $this->carrier->shelf_number = $inputs['shelf_number'];
+
+                $this->carrier->carrierType()->associate($carrierType);
+
+                if ($this->carrier->save($rules)) {
+                    // Redirect to the new carrier page
+                    return Redirect::to('carriers')->with('success', Lang::get('carrier/messages.create.success'));
+
+                } else {
+                    // Redirect to the carrier create page
+                    //var_dump($this->carrier);
+                    return Redirect::to('carriers/create')->with('error', Lang::get('carrier/messages.create.error'));
+                }
+            }
+            else {
                 // Redirect to the carrier create page
                 //var_dump($this->carrier);
-                return Redirect::to('carriers/create')->with('error', Lang::get('carrier/messages.create.error'));
+                return Redirect::to('carriers/create')->with('error', Lang::get('carrier/messages.create.error'));    
             }
         } else {
             // Form validation failed
@@ -144,8 +166,14 @@ class CarrierController extends BaseController
         // Title
         $title = Lang::get('carrier/title.carrier_update');
 
+        // All carrier types
+        $carrierTypes = $this->carrierType->all();
+
+        // Selected carrier type
+        $selectedType = Input::old('carrier-type', array());
+
         // Show the page
-        return View::make('carrier/edit', compact('carrier', 'title'));
+        return View::make('carrier/edit', compact('carrier', 'title', 'carrierTypes', 'selectedType'));
     }
 
     /**
@@ -159,7 +187,8 @@ class CarrierController extends BaseController
         $carrier = $this->carrier->find($id);
 
         $rules = array(
-                'shelf_number'=> 'required|alpha_dash|unique:carriers,shelf_number,' . $carrier->id
+                'shelf_number'=> 'required|alpha_dash|unique:carriers,shelf_number,' . $carrier->id,
+                'carrier_type'=> 'required'
             );
 
         // Validate the inputs
@@ -167,14 +196,28 @@ class CarrierController extends BaseController
 
         // Check if the form validates with success
         if ($validator->passes()) {
-            $carrier->shelf_number = Input::get('shelf_number');
+            
+            // Get the inputs, with some exceptions
+            $inputs = Input::except('csrf_token');
 
-            // Was the carrier updated?
-            if ($carrier->save($rules)) {
-                // Redirect to the carrier page
-                return Redirect::to('carriers/' . $carrier->id . '/edit')->with('success', Lang::get('carrier/messages.update.success'));
-            } else {
-                // Redirect to the carrier page
+            $carrierType = $this->carrierType->find($inputs['carrier_type']);
+
+            if ($carrierType) {
+
+                $carrier->shelf_number = $inputs['shelf_number'];
+
+                $carrier->carrierType()->associate($carrierType);
+
+                // Was the carrier updated?
+                if ($carrier->save($rules)) {
+                    // Redirect to the carrier page
+                    return Redirect::to('carriers/' . $carrier->id . '/edit')->with('success', Lang::get('carrier/messages.update.success'));
+                } else {
+                    // Redirect to the carrier page
+                    return Redirect::to('carriers/' . $carrier->id . '/edit')->with('error', Lang::get('carrier/messages.update.error'));
+                }
+            }
+            else {
                 return Redirect::to('carriers/' . $carrier->id . '/edit')->with('error', Lang::get('carrier/messages.update.error'));
             }
         } else {

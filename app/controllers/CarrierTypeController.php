@@ -3,11 +3,6 @@
 |--------------------------------------------------------------------------
 | CarrierType Controller
 |--------------------------------------------------------------------------
-|
-| An example controller that uses the pre-baked RESTful resource controller
-| actions for index, create, store, show, edit, update, destroy, as well as a
-| delete method to show the record before deletion.
-|
 | See routes.php  ->
 | Route::resource('carrierType', 'CarrierTypeController');
 | Route::get('carrierType/{carrierType}/delete', 'CarrierTypeController@delete');
@@ -109,9 +104,8 @@ class CarrierTypeController extends BaseController
 
             $this->carrierType->name = $inputs['name'];
             $this->carrierType->description = $inputs['description'];
-            $this->carrierType->save($rules);
-
-            if ($this->carrierType->id) {
+            
+            if ($this->carrierType->save($rules)) {
                 // Redirect to the new carrierType page
                 return Redirect::to('carrier-types')->with('success', Lang::get('carrier-type/messages.create.success'));
 

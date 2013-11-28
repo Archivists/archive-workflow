@@ -6,6 +6,15 @@
 		@if (isset($carrier)) {{{ $carrier->shelf_number }}} @endif
 	</div>
 </div>
+
+<div class="form-group">
+	<label class="control-label" for="carrier_type">Carrier Type</label>
+	<div class="controls">
+		@if ($carrier->carrierType) {{{ $carrier->carrierType->name }}} @endif
+	</div>
+</div>
+
+
 <!-- ./ name -->
 
 <!-- Form Actions -->

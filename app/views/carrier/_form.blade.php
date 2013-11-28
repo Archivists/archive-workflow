@@ -15,6 +15,28 @@
 	</div>
 	<!-- ./ carrier shelfNumber -->
 
+	<!-- roles -->
+	<div class="form-group {{{ $errors->has('carrier_type') ? 'has-error' : '' }}}">
+        <label class="control-label" for="carrier_type">Carrier Type</label>
+        <div class="controls">
+
+            <select class="form-control" name="carrier_type" id="carrier_type">
+            	<option value="">Select a carrier type...</option>
+                @foreach ($carrierTypes as $type)
+					@if ($action == 'create')
+                		<option value="{{{ $type->id }}}" {{{ ( $type->id == $selectedType) ? ' selected="selected"' : '' }}}>{{{ $type->name }}}</option>
+                	@else
+						<option value="{{{ $type->id }}}"{{{ ( $carrier->carrierType && $type->id == $carrier->carrierType->id ) ? ' selected="selected"' : '' }}}>{{{ $type->name }}}</option>
+					@endif
+                @endforeach
+			</select>
+
+			<span class="help-block">
+				Select a carrier type to assign to this carrier.
+			</span>
+    	</div>
+	</div>
+	<!-- ./ roles --> 
 
 	<!-- Form Actions -->
 	<div class="form-group">
