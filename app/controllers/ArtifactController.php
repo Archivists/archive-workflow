@@ -19,13 +19,21 @@ class ArtifactController extends BaseController
     protected $artifact;
 
     /**
-     * Inject the model.
-     * @param Artifact $artifact
+     * Parent Carrier Model
+     * @var Carrier
      */
-    public function __construct(Artifact $artifact)
+    protected $carrier;
+
+    /**
+     * Inject the models.
+     * @param Artifact $artifact
+     * @param Carrier $carrier
+     */
+    public function __construct(Artifact $artifact, Carrier $carrier)
     {
         parent::__construct();
         $this->artifact = $artifact;
+        $this->carrier = $carrier;
     }
 
     /**
@@ -38,12 +46,20 @@ class ArtifactController extends BaseController
      * @return Response
      */
     public function index($carrier_id)
-    {
-        // Title
-        $title = Lang::get('artifact/title.artifact_management');
+    {   
+        $carrier = $this->carrier->find($carrier_id);
 
-        // Show the page
-        return View::make('artifact/index', compact('carrier_id', 'title'));
+        if ($carrier->id) {
+            // Title
+            $title = Lang::get('artifact/title.artifact_management');
+
+            // Show the page
+            return View::make('artifact/index', compact('carrier', 'title'));
+
+        } else {
+            // Redirect to the carrier management page
+            return Redirect::to('carriers')->with('error', Lang::get('carrier/messages.does_not_exist'));
+        }
     }
 
     /**

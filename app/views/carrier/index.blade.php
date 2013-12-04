@@ -24,7 +24,10 @@
 	<table id="carriers" class="table table-bordered table-hover">
 		<thead>
 			<tr>
+				<th>{{{ Lang::get('carrier/table.archive_id') }}}</th>
 				<th>{{{ Lang::get('carrier/table.shelf_number') }}}</th>
+				<th>{{{ Lang::get('carrier/table.parts') }}}</th>
+				<th>{{{ Lang::get('carrier/table.sides') }}}</th>
 				<th>{{{ Lang::get('carrier/table.created_at') }}}</th>
 				<th>{{{ Lang::get('table.actions') }}}</th>
 			</tr>

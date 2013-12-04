@@ -20,5 +20,5 @@
 	<!-- Notifications -->
     @include('notifications')
     <!-- ./ notifications -->
-		@include('admin/user/_form', compact('user'))
+	@include('admin/user/_form', compact('user'))
 @stop

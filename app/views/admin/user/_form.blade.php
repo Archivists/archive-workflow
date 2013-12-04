@@ -5,7 +5,7 @@
 {{ Form::open(array('url' => URL::to('admin/users'), 'method' => 'post', 'class' => 'bf')) }}
 @endif
 
-<div class="row">
+	<div class="row">
   		<div class="col-xs-6">
 			<!-- username -->
 			<div class="form-group {{{ $errors->has('username') ? 'has-error' : '' }}}">

@@ -47,7 +47,7 @@
 		var oTable;
 		$(document).ready(function() {
 			oTable = $('#artifacts').dataTable( {
-				"sDom": "<l><f><r>t<i><p>",
+				"sDom": "<r>t<i>",
 				"sPaginationType": "bootstrap",
 				"oLanguage": {
 					"sSearch": "Search:",

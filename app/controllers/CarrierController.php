@@ -88,11 +88,16 @@ class CarrierController extends BaseController
         // All carrier types
         $carrierTypes = $this->carrierType->all();
 
+        // Sides
+        $sides = array("0" => 0, "1" => 1, "2" => 2);
+        // Selected side
+        $selectedSide = Input::old('sides', array());
+
         // Selected carrier type
         $selectedType = Input::old('carrier-type', array());
 
         // Show the page
-        return View::make('carrier/create', compact('title', 'carrierTypes', 'selectedType'));
+        return View::make('carrier/create', compact('title', 'sides', 'selectedSide', 'carrierTypes', 'selectedType'));
     }
 
     /**
@@ -105,6 +110,8 @@ class CarrierController extends BaseController
         // Validate the inputs
         $rules = array(
             'shelf_number'=> 'required|alpha_dash|unique:carriers,shelf_number',
+            'parts' => 'required|numeric',
+            'sides' => 'required',
             'carrier_type'=> 'required'
             );
         
@@ -122,7 +129,9 @@ class CarrierController extends BaseController
             if ($carrierType) {
 
                 $this->carrier->shelf_number = $inputs['shelf_number'];
-
+                $this->carrier->parts = $inputs['parts'];
+                $this->carrier->sides = $inputs['sides'];
+                $this->carrier->notes = $inputs['notes'];
                 $this->carrier->carrierType()->associate($carrierType);
 
                 if ($this->carrier->save($rules)) {
@@ -166,6 +175,12 @@ class CarrierController extends BaseController
         // Title
         $title = Lang::get('carrier/title.carrier_update');
 
+        // Sides
+        $sides = array("0" => 0, "1" => 1, "2" => 2);
+
+        // Selected side
+        $selectedSide = Input::old('sides', 0);
+
         // All carrier types
         $carrierTypes = $this->carrierType->all();
 
@@ -173,7 +188,7 @@ class CarrierController extends BaseController
         $selectedType = Input::old('carrier-type', array());
 
         // Show the page
-        return View::make('carrier/edit', compact('carrier', 'title', 'carrierTypes', 'selectedType'));
+        return View::make('carrier/edit', compact('carrier', 'title', 'sides', 'selectedSide', 'carrierTypes', 'selectedType'));
     }
 
     /**
@@ -188,6 +203,8 @@ class CarrierController extends BaseController
 
         $rules = array(
                 'shelf_number'=> 'required|alpha_dash|unique:carriers,shelf_number,' . $carrier->id,
+                'parts' => 'required|numeric',
+                'sides' => 'required',
                 'carrier_type'=> 'required'
             );
 
@@ -205,7 +222,9 @@ class CarrierController extends BaseController
             if ($carrierType) {
 
                 $carrier->shelf_number = $inputs['shelf_number'];
-
+                $carrier->parts = $inputs['parts'];
+                $carrier->sides = $inputs['sides'];
+                $carrier->notes = $inputs['notes'];
                 $carrier->carrierType()->associate($carrierType);
 
                 // Was the carrier updated?
@@ -277,10 +296,13 @@ class CarrierController extends BaseController
     public function data()
     {
         //Make this method testable and mockable by using our injected $carrier member.
-        $carriers = $this->carrier->select(array('carriers.id',  'carriers.shelf_number', 'carriers.created_at'));
+        $carriers = $this->carrier->select(array('carriers.id', 'carriers.shelf_number', 'carriers.parts', 'carriers.sides', 'carriers.created_at'));
 
         return Datatables::of($carriers)
-        // ->edit_column('created_at','{{{ Carbon::now()->diffForHumans(Carbon::createFromFormat(\'Y-m-d H\', $test)) }}}')
+        // ->edit_column('created_at','{{{ Carbon::now()->diffForHumans(Carbon::createFromFormat(\'Y-m-d H\', $test)) }}}')   
+
+        //See below - need to change name of added column - archive_id is automatically added at the end.
+        ->add_column('archive_no', '<a href="{{{ URL::to(\'carriers/\' . $id) }}}"> {{{ $archive_id }}} </a>', 0)
 
         ->add_column('actions', '<div class="btn-group">
                   <button type="button" class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -294,6 +316,9 @@ class CarrierController extends BaseController
                 </div>')
 
         ->remove_column('id')
+
+        //Weird - archive_id is automatically added at the end.
+        ->remove_column('archive_id')
 
         ->make();
     }
