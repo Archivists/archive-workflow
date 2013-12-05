@@ -230,7 +230,7 @@ class CarrierController extends BaseController
                 // Was the carrier updated?
                 if ($carrier->save($rules)) {
                     // Redirect to the carrier page
-                    return Redirect::to('carriers/' . $carrier->id . '/edit')->with('success', Lang::get('carrier/messages.update.success'));
+                    return Redirect::to('carriers/' . $carrier->id)->with('success', Lang::get('carrier/messages.update.success'));
                 } else {
                     // Redirect to the carrier page
                     return Redirect::to('carriers/' . $carrier->id . '/edit')->with('error', Lang::get('carrier/messages.update.error'));

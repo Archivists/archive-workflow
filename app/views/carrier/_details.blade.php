@@ -1,7 +1,7 @@
 {{-- Widget Details --}}
 
 <div class="row">
-	<div class="col-xs-4">
+	<div class="col-md-3">
 
 		<div class="form-group">
 			<label class="control-label" for="archive_id">Archive Number</label>
@@ -17,15 +17,9 @@
 			</div>
 		</div>
 
-		<div class="form-group">
-			<label class="control-label" for="parts">Parts</label>: @if ($carrier) {{{ $carrier->parts }}} @endif
-			<label class="control-label" for="sides">Sides</label>: @if ($carrier) {{{ $carrier->sides }}} @endif
-		
-		</div>
-
 	</div>
 
-	<div class="col-xs-4">
+	<div class="col-md-3">
 
 		<div class="form-group">
 			<label class="control-label" for="carrier_type">Carrier Type</label>
@@ -35,16 +29,20 @@
 		</div>
 
 		<div class="form-group">
+			<label class="control-label" for="parts">Parts</label>: @if ($carrier) {{{ $carrier->parts }}} @endif
+			&nbsp;&nbsp;<label class="control-label" for="sides">Sides</label>: @if ($carrier) {{{ $carrier->sides }}} @endif
+		</div>
+
+	</div>
+
+	<div class="col-md-3">
+		<div class="form-group">
 			<label class="control-label" for="created_by">Created By</label>
 			<div class="controls">
 				@if ($carrier->created_by) {{{ $carrier->created_by }}} @endif
 			</div>
 		</div>
-
-	</div>
-
-	<div class="col-xs-4">
-
+		
 		<div class="form-group">
 			<label class="control-label" for="updated_by">Updated By</label>
 			<div class="controls">
@@ -52,10 +50,12 @@
 			</div>
 		</div>
 
+	</div>
+
+	<div class="col-md-3">
 		<div class="form-group">
 			<label class="control-label" for="notes">Notes: </label>@if ($carrier->notes) {{{ $carrier->notes }}} @endif 
 		</div>
-
 	</div>
 </div>
 
@@ -63,11 +63,12 @@
 <div class="form-group">
 	<div class="controls">
 		@if ($action == 'show')
-			<a href="{{{ URL::to('carriers') }}}" class="btn btn-primary">Close</a>
-			<a href="{{{ URL::to('carriers/' . $carrier->id . '/edit') }}}" class="btn btn-primary">Edit Carrier</a>
+			<a href="{{{ URL::to('carriers') }}}" class="btn btn-sm btn-primary">Close</a>
+			<a href="{{{ URL::to('carriers/' . $carrier->id . '/edit') }}}" class="btn btn-sm btn-primary">Edit Carrier</a>
+			<a href="#" class="btn btn-sm btn-primary">Create Job for Carrier</a>
 		@else
-			<a href="{{{ URL::to('carriers') }}}" class="btn btn-primary">Cancel</a>
-			<button type="submit" class="btn btn-danger">Delete</button>
+			<a href="{{{ URL::to('carriers') }}}" class="btn btn-sm btn-primary">Cancel</a>
+			<button type="submit" class="btn btn-sm btn-danger">Delete</button>
 		@endif
 	</div>
 </div>

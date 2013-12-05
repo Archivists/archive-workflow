@@ -18,7 +18,7 @@
     @include('notifications')
     <!-- ./ notifications -->
 
-	<table id="carriers" class="table table-bordered table-hover">
+	<table id="carriers" class="table table-bordered table-hover table-striped">
 		<thead>
 			<tr>
 				<th>{{{ Lang::get('carrier/table.archive_id') }}}</th>
