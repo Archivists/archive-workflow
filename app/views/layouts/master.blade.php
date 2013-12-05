@@ -16,7 +16,7 @@
     </title>
 
     <!--  Mobile Viewport Fix -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"> -->
 
     <!-- This is the traditional favicon.
      - size: 16x16 or 32x32
@@ -25,7 +25,7 @@
     <link rel="shortcut icon" href="{{{ asset('favicon.ico') }}}">
 
     <!-- CSS -->
-    {{ HTML::style('css/bootstrap.css') }}
+    {{ HTML::style('css/bootstrap-fixed.css') }}
     {{ HTML::style('css/datatables.css') }}
     {{ HTML::style('css/style.css') }}
 
@@ -45,68 +45,63 @@
 </head>
 
 <body>
-    <!-- Container -->
-    <div class="container">
-        <!-- Navbar -->
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Archive Workflow</a>
-          </div>
+    <!-- Navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <!-- Container -->
+      <div class="container">
 
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav">
-              <li class="{{ (Request::is('/') ? ' active' : '') }}"><a href="/"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-              <li><a href="{{{ URL::to('widgets') }}}">Widgets</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Archive Workflow</a>
+      </div>
+        <ul class="nav navbar-nav navbar-left">
+          <li class="{{ (Request::is('/') ? ' active' : '') }}"><a href="/"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="{{{ URL::to('carriers') }}}">Carriers</a></li>
+              <li><a href="{{{ URL::to('carrier-types') }}}">Carrier Types</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li><a href="#">Separated link</a></li>
+              <li><a href="#">One more separated link</a></li>
+            </ul>
+          </li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          @if (Auth::check())
+            @if (Auth::user()->hasRole('admin'))
+              <li class="dropdown {{ (Request::is('admin/user*|admin/role*') ? ' active' : '') }}">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="{{{ URL::to('admin/user') }}}">
+                Admin Tasks <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li {{ (Request::is('admin/user*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/users') }}}">Users</a></li>
+                <li {{ (Request::is('role*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/roles') }}}">Roles</a></li>
+              </ul>
+             </li>
+            @endif
+            <li class="dropdown {{ (Request::is('user*') ? ' active' : '') }}">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="{{{ URL::to('user') }}}">Logged in as {{{ Auth::user()->username }}} <span class="caret"></span>
+            </a>
                 <ul class="dropdown-menu">
-                  <li><a href="{{{ URL::to('carriers') }}}">Carriers</a></li>
-                  <li><a href="{{{ URL::to('carrier-types') }}}">Carrier Types</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li><a href="#">Separated link</a></li>
-                  <li><a href="#">One more separated link</a></li>
-                </ul>
-              </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              @if (Auth::check())
-                @if (Auth::user()->hasRole('admin'))
-                  <li class="dropdown {{ (Request::is('admin/user*|admin/role*') ? ' active' : '') }}">
-                  <a class="dropdown-toggle" data-toggle="dropdown" href="{{{ URL::to('admin/user') }}}">
-                    Admin Tasks <span class="caret"></span>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li {{ (Request::is('admin/user*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/users') }}}">Users</a></li>
-                    <li {{ (Request::is('role*') ? ' class="active"' : '') }}><a href="{{{ URL::to('admin/roles') }}}">Roles</a></li>
-                  </ul>
-                 </li>
-                @endif
-                <li class="dropdown {{ (Request::is('user*') ? ' active' : '') }}">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="{{{ URL::to('user') }}}">Logged in as {{{ Auth::user()->username }}} <span class="caret"></span>
-                </a>
-                    <ul class="dropdown-menu">
-                      <li {{ (Request::is('user*') ? ' class="active"' : '') }}>
-                        <a href="{{{ URL::to('user') }}}">Settings</a>
-                      </li>
-                  </ul>
-                </li>
-                <li><a href="{{{ URL::to('user/logout') }}}">Logout</a></li>
-              @else
-                <li {{ (Request::is('user/login') ? ' class="active"' : '') }}><a href="{{{ URL::to('user/login') }}}">Login</a></li>
-              @endif
-            </ul>
-          </div><!-- /.navbar-collapse -->
-        </nav>
-        <!-- ./ navbar -->
-
+                  <li {{ (Request::is('user*') ? ' class="active"' : '') }}>
+                    <a href="{{{ URL::to('user') }}}">Settings</a>
+                  </li>
+              </ul>
+            </li>
+            <li><a href="{{{ URL::to('user/logout') }}}">Logout</a></li>
+          @else
+            <li {{ (Request::is('user/login') ? ' class="active"' : '') }}><a href="{{{ URL::to('user/login') }}}">Login</a></li>
+          @endif
+        </ul>
+      
+    </div><!-- /.container -->
+    </nav>
+    <!-- ./ navbar -->
+        
+    <div class="container">
+        
         <!-- Content -->
         @yield('content')
         <!-- ./ content -->

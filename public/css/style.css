@@ -1,3 +1,11 @@
+
+.container { 
+	width: 970px !important;
+	max-width: 970px !important;
+	min-width: 970px !important;
+}
+
+
 .page-header { margin: 10px 0 10px 0; }
 
 .page-header .pull-right { margin: 17px 0 0 0;}
