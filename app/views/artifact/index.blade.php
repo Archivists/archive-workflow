@@ -7,15 +7,12 @@
 
 {{-- Content --}}
 @section('content')
-	<div class="page-header">
-		<h3>
-			{{{ $title }}} for {{{ $carrier->archive_id }}}
-
-			<div class="pull-right">
-				<a href="{{{ URL::to('carriers/' . $carrier->id) }}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-arrow-left"></span> Back </a>
-				<a href="{{{ URL::to('carriers/' . $carrier->id . '/artifacts/create') }}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span> Create New Artifact </a>
-			</div>
-		</h3>
+	<div class="page-header clearfix">
+		<h3 class="pull-left">{{{ $title }}} for {{{ $carrier->archive_id }}}</h3>
+		<div class="pull-right">
+			<a href="{{{ URL::to('carriers/' . $carrier->id) }}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-arrow-left"></span> Back </a>
+			<a href="{{{ URL::to('carriers/' . $carrier->id . '/artifacts/create') }}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span> Create New Artifact </a>
+		</div>
 	</div>
 
 	<!-- Notifications -->

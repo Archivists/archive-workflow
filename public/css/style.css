@@ -1,3 +1,7 @@
+.page-header { margin: 10px 0 10px 0; }
+
+.page-header .pull-right { margin: 17px 0 0 0;}
+
 .bf {
 	padding: 10px;
 	background-color: #FFF;
@@ -32,4 +36,19 @@ legend {
   
 .inline-control {
 	width: auto;
+}
+
+#file {
+  /* Note: display:none on the input won't trigger the click event in WebKit.
+    Setting visibility: hidden and height/width:0 works great. */
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+#fileSelect {
+  /* style the button any way you want */
+}
+
+#fileName {
+	height: 30px;
 }

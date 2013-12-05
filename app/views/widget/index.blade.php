@@ -7,14 +7,11 @@
 
 {{-- Content --}}
 @section('content')
-	<div class="page-header">
-		<h3>
-			{{{ $title }}}
-
+	<div class="page-header clearfix">
+			<h3 class="pull-left">{{{ $title }}}</h3>
 			<div class="pull-right">
 				<a href="{{{ URL::to('widgets/create') }}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span> Create New Widget</a>
 			</div>
-		</h3>
 	</div>
 
 	<!-- Notifications -->

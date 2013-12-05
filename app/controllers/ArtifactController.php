@@ -224,7 +224,7 @@ class ArtifactController extends BaseController
         }
 
         // Show the record
-        return View::make('carriers/' . $carrier_id. '/artifacts/delete', compact('carrier_id', 'artifact', 'title'));
+        return View::make('artifact/delete', compact('carrier_id', 'artifact', 'title'));
     }
 
     /**

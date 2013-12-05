@@ -7,14 +7,11 @@
 
 {{-- Content --}}
 @section('content')
-	<div class="page-header">
-		<h3>
-			{{{ $title }}}
-
-			<div class="pull-right">
-				<a href="{{{ URL::to('carrier-types/create') }}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span>{{{ Lang::get('carrier-type/title.create_a_new_carrier-type') }}}</a>
-			</div>
-		</h3>
+	<div class="page-header clearfix">
+		<h3 class="pull-left">{{{ $title }}}</h3>
+		<div class="pull-right">
+			<a href="{{{ URL::to('carrier-types/create') }}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span>{{{ Lang::get('carrier-type/title.create_a_new_carrier-type') }}}</a>
+		</div>
 	</div>
 
 	<!-- Notifications -->
