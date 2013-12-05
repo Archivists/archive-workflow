@@ -159,11 +159,11 @@ Two writeable directories are required for the application. A repository path (l
 
 The repository path will be used to store supporting artefacts for the carrier, including box cover photos, transcripts, photos of the carrier itself, scanned documents etc.
 
-The repository path needs to be set in ***app/config/app.php*** (or the respective environment folder - local, staging, production etc.).
+The repository path needs to be set in ***app/config/workflow.php*** (or the respective environment folder - local, staging, production etc.).
 
 The DAW pickup folder is the location from which the digital audio workstation will pickup an XML manifest for this job - including archive idendifier (or PID).
 
-An example configuration setting can be found in ***app/config/app.php*** and ***app/config/local/app.php***:
+An example configuration setting can be found in ***app/config/workflow.php*** and ***app/config/local/workflow.php***:
 
     /*
     |--------------------------------------------------------------------------
@@ -176,8 +176,17 @@ An example configuration setting can be found in ***app/config/app.php*** and **
     |
     */
 
-    'repository' => '/var/archworkflow/data/repository/',
-    'dawpickup'  => '/var/archworkflow/data/dawpickup/',
+    'repository'  => '/Users/tony/Projects/Archivists/Data/repository/',
+    'dawpickup'   => '/Users/tony/Projects/Archivists/Data/dawpickup/',
+    
+    'library'     => 'gd',
+    'upload_dir'  => 'uploads',
+    'upload_path' => public_path() . '/uploads/',
+    'quality'     => 85,
+    'dimensions' => array(
+        'thumb'  => array(100, 100, true,  80),
+        'medium' => array(600, 400, false, 90),
+    ),
 
 
 ### Production Launch
