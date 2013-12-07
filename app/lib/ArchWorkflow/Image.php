@@ -36,33 +36,28 @@ class Image {
 
     /**
      * Resize an image
-     * @param  string  $url
+     * @param  string  $path
      * @param  integer $width
      * @param  integer $height
      * @param  boolean $crop
      * @return string
      */
-    public function resize($url, $width = 100, $height = null, $crop = false, $quality = 90)
+    public function resize($path, $style = 'thumbnails', $long = 100, $crop = false, $quality = 90)
     {
-        if ($url)
+        if (file_exists($path))
         {
             // URL info
-            $info = pathinfo($url);
-     
-            // The size
-            if ( ! $height) $height = $width;
-     
+            $info = pathinfo($path);
             // Quality
             $quality = Config::get('workflow.quality', $quality);
      
             // Directories and file names
             $fileName       = $info['basename'];
-            $sourceDirPath  = public_path() . '/' . $info['dirname'];
-            $sourceFilePath = $sourceDirPath . '/' . $fileName;
-            $targetDirName  = $width . 'x' . $height . ($crop ? '_crop' : '');
-            $targetDirPath  = $sourceDirPath . '/' . $targetDirName . '/';
+            $sourceDirPath  = $info['dirname'];
+            $sourceFilePath = $path;
+            $targetDirName  = $style;
+            $targetDirPath  = $sourceDirPath . DIRECTORY_SEPARATOR . $targetDirName . DIRECTORY_SEPARATOR;
             $targetFilePath = $targetDirPath . $fileName;
-            $targetUrl      = asset($info['dirname'] . '/' . $targetDirName . '/' . $fileName);
      
             // Create directory if missing
             try
@@ -70,38 +65,69 @@ class Image {
                 // Create dir if missing
                 if ( ! File::isDirectory($targetDirPath) and $targetDirPath) @File::makeDirectory($targetDirPath);
      
-                // Set the size
-                $size = new \Imagine\Image\Box($width, $height);
-     
-                // Now the mode
-                $mode = $crop ? \Imagine\Image\ImageInterface::THUMBNAIL_OUTBOUND : \Imagine\Image\ImageInterface::THUMBNAIL_INSET;
-     
                 if ( ! File::exists($targetFilePath) or (File::lastModified($targetFilePath) < File::lastModified($sourceFilePath)))
                 {
-                    $this->imagine->open($sourceFilePath)
-                                  ->thumbnail($size, $mode)
-                                  ->save($targetFilePath, array('quality' => $quality));
+
+                    $image = $this->imagine->open($sourceFilePath);
+
+                    if($crop) {
+
+                      $newWidth = $long;
+                      $newHeight = $long;
+
+                    } else {
+                      
+                      $size = $image->getSize();
+                      $width = $size->getWidth();
+                      $height = $size->getHeight();
+
+                      if ($width >= $height) {
+                          
+                          $newWidth  = $long;
+                          $newHeight =  $height * ($long / $width);
+                          // we center the crop in relation to the width
+                          // $cropPoint = new Point((max($width - $this->box->getWidth(), 0))/2, 0);
+                      } else {
+                          $newHeight  = $long;
+                          $newWidth =  $width * ($long / $height);
+                          //we center the crop in relation to the height
+                          //$cropPoint = new Point(0, (max($height-$this->box->getHeight(),0))/2);
+                      }
+                    }
+
+
+                    // Set the size
+                    $newSize = new \Imagine\Image\Box($newWidth, $newHeight);
+         
+                    // Now the mode
+                    $mode = $crop ? \Imagine\Image\ImageInterface::THUMBNAIL_OUTBOUND : \Imagine\Image\ImageInterface::THUMBNAIL_INSET;
+       
+                    $image->thumbnail($newSize, $mode)
+                        ->save($targetFilePath, array('quality' => $quality));
                 }
             }
             catch (\Exception $e)
             {
-                Log::error('[IMAGE SERVICE] Failed to resize image "' . $url . '" [' . $e->getMessage() . ']');
+                Log::error('[IMAGE SERVICE] Failed to resize image "' . $path . '" [' . $e->getMessage() . ']');
+                return false;
             }
      
-            return $targetUrl;
+            return true;
         }
+
+        return false;
     }
 
     /**
     * Helper for creating thumbs
-    * @param string $url
+    * @param string $path
     * @param integer $width
     * @param integer $height
     * @return string
     */
-    public function thumb($url, $width, $height = null)
+    public function thumb($path, $long = 100)
     {
-        return $this->resize($url, $width, $height, true);
+        return $this->resize($path, "thumbnails", $long, true);
     }
 
     /**
@@ -118,9 +144,9 @@ class Image {
      
             // Get file info and try to move
             $destination = Config::get('workflow.upload_path') . $dir;
-            $filename    = $file-&gt;getClientOriginalName();
-            $path        = Config::get('workflow.upload_dir') . '/' . $dir . '/' . $filename;
-            $uploaded    = $file-&gt;move($destination, $filename);
+            $filename    = $file->getClientOriginalName();
+            $path        = Config::get('workflow.upload_dir') . DIRECTORY_SEPARATOR . $dir . DIRECTORY_SEPARATOR . $filename;
+            $uploaded    = $file->move($destination, $filename);
      
             if ($uploaded)
             {
@@ -134,11 +160,11 @@ class Image {
 
     /**
      * Creates image dimensions based on a configuration
-     * @param  string $url
+     * @param  string $path
      * @param  array  $dimensions
      * @return void
      */
-    public function createDimensions($url, $dimensions = array())
+    public function createDimensions($path, $dimensions = array())
     {
         // Get default dimensions
         $defaultDimensions = Config::get('workflow.dimensions');
@@ -148,13 +174,13 @@ class Image {
         foreach ($dimensions as $dimension)
         {
             // Get dimmensions and quality
-            $width   = (int) $dimension[0];
-            $height  = isset($dimension[1]) ?  (int) $dimension[1] : $width;
+            $style   =  $dimension[0];
+            $long   = (int) $dimension[1];
             $crop    = isset($dimension[2]) ? (bool) $dimension[2] : false;
             $quality = isset($dimension[3]) ?  (int) $dimension[3] : Config::get('workflow.quality');
      
             // Run resizer
-            $img = $this->resize($url, $width, $height, $crop, $quality);
+            $img = $this->resize($path, $style, $long, $crop, $quality);
         }
     }
 }

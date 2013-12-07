@@ -19,15 +19,32 @@
 		<!-- Notifications -->
 	    @include('notifications')
 	    <!-- ./ notifications -->
+	    
 		<div class="details">
 			@include('carrier/_details', compact('carrier'))
 		</div>
 
 		<h4>Supporting Artifacts</h4>
 
+		{{ Form::open(array('url' => URL::to('carriers') . '/' . $carrier->id . '/artifacts', 'files' => true, 'method' => 'post', 'class' => 'form-inline')) }}
+			<input type="file" name="artifact" id="artifact">
+		  	<div class="form-group {{{ $errors->has('fileName') ? 'has-error' : '' }}}">
+				<a id="fileSelect" class="btn btn-sm btn-primary">Select File</a>
+				<input class="form-control" type="text" name="fileName" id="fileName" placeholder="Select file to upload." readonly value="" />
+				<button type="submit" class="btn btn-sm btn-success">Upload Artifact</button>
+			  	<button type="button" name="clear" id="clear" class="btn btn-sm btn-primary">Clear</button>  	
+			  	<span class="help-block">{{{ $errors->first('fileName', ':message') }}}</span>
+		  	</div>
+		  	
+		  	<span class="help-block">
+				Select a file to associate as an artifact for this carrier. Files can include images, documents, and PDFs.
+			</span>
+		{{ Form::close() }}
+
 		<table id="artifacts" class="table table-bordered table-hover">
 			<thead>
 				<tr>
+					<th></th>
 					<th>{{{ Lang::get('artifact/table.name') }}}</th>
 					<th>{{{ Lang::get('artifact/table.created_at') }}}</th>
 					<th>{{{ Lang::get('table.actions') }}}</th>
@@ -36,21 +53,6 @@
 			<tbody>
 			</tbody>
 		</table>
-		
-		{{ Form::open(array('url' => URL::to('carriers') . '/' . $carrier->id . '/artifacts', 'files' => true, 'method' => 'post', 'class' => 'form-inline')) }}
-		  	<a id="fileSelect" class="btn btn-sm btn-primary">Select File</a>
-		  	<div class="form-group">
-		  		<input type="file" id="file">
-				<input class="form-control" type="text" name="fileName" id="fileName" placeholder="Select file to upload." readonly value="" />
-			</div>
-		  	
-		  	<button type="submit" class="btn btn-sm btn-success">Upload Artifact</button>
-		  	<button type="button" name="clear" id="clear" class="btn btn-sm btn-primary">Clear</button>
-
-		  	<span class="help-block">
-				Select a file to associate as an artifact for this carrier. Files can include images, documents, and PDFs.
-			</span>
-		{{ Form::close() }}
 	</div>
 </div>
 @stop
@@ -77,11 +79,11 @@
 
 			$('#fileSelect').on('click', function(s) {
   				// Use the native click() of the file input.
-  				$('#file').click();
+  				$('#artifact').click();
 			});
 
-			$('#file').on('change', function(s) {
-				$('#fileName').val(this.value);
+			$('#artifact').on('change', function(s) {
+				$('#fileName').val(this.value.replace(/.*(\/|\\)/i, ''));
 			});
 
 			$('#clear').on('click', function(s) {

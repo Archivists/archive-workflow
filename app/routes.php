@@ -100,6 +100,9 @@ Route::group(array('before' => 'auth'), function()
 	// to be used.
 	Route::get('carriers/{carrier}/artifacts/{artifact}/delete', 'ArtifactController@delete');
 
+	//Send an image or icon from the repository.
+	Route::get('/artifact/{archive_id}/{style}/{name}', 'ArtifactController@send_image');
+
 
     /** ------------------------------------------
  	*  Widgets

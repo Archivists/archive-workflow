@@ -25,15 +25,22 @@ class ArtifactController extends BaseController
     protected $carrier;
 
     /**
+     * FileRepository Service
+     * @var FileRepository
+     */
+    protected $fileRepo;
+
+    /**
      * Inject the models.
      * @param Artifact $artifact
      * @param Carrier $carrier
      */
-    public function __construct(Artifact $artifact, Carrier $carrier)
+    public function __construct(Artifact $artifact, Carrier $carrier, FileRepository $fileRepo)
     {
         parent::__construct();
         $this->artifact = $artifact;
         $this->carrier = $carrier;
+        $this->fileRepo = $fileRepo;
     }
 
     /**
@@ -104,37 +111,39 @@ class ArtifactController extends BaseController
      * @return Response
      */
     public function store($carrier_id)
-    {
-        // Validate the inputs
-        $rules = array(
-            'name'=> 'required|alpha_dash|unique:artifacts,name'
-            );
+    { 
+        $carrier = $this->carrier->find($carrier_id);
 
-        // Validate the inputs
-        $validator = Validator::make(Input::all(), $rules);
-
-        // Check if the form validates with success
-        if ($validator->passes()) {
+        if($carrier->id) {
             
             // Get the inputs, with some exceptions
-            $inputs = Input::except('csrf_token');
+            if (Input::hasFile('artifact')) {
 
-            $this->artifact->carrier_id = $carrier_id;
-            $this->artifact->name = $inputs['name'];
-            //$this->artifact->description = $inputs['description'];
+                $uploaded = Input::file('artifact')->getRealPath();
+                $count = $carrier->artifacts()->count() + 1;
+                $name = $carrier->archive_id . '-' . str_pad($count, 2, '0', STR_PAD_LEFT) . '.' . strtolower(Input::file('artifact')->getClientOriginalExtension());
 
-            if ($this->artifact->save($rules)) {
-                // Redirect to the new artifact page
-                return Redirect::to('carriers/' . $carrier_id. '/artifacts')->with('success', Lang::get('artifact/messages.create.success'));
+                if ($this->fileRepo->move_file($carrier->archive_id, $uploaded, $name)) {
+                    
+                    $this->artifact->name = $name;
+                    $this->artifact->carrier_id = $carrier->id;
+                    
+                    if ($this->artifact->save()) {
+                        return Redirect::to('carriers/' . $carrier_id)->with('success', Lang::get('artifact/messages.create.success'));
+                    } else {
+                        return Redirect::to('carriers/' . $carrier_id)->with('error', Lang::get('artifact/messages.create.error'));
+                    } 
+
+                } else {
+                    return Redirect::to('carriers/' . $carrier_id)->with('error', 'There was a problem saving the artifact to the repository.');
+                }
 
             } else {
-                // Redirect to the artifact create page
-                //var_dump($this->artifact);
-                return Redirect::to('carriers/' . $carrier_id. '/artifacts/create')->with('error', Lang::get('artifact/messages.create.error'));
+                return Redirect::to('carriers/' . $carrier_id)->with('error', 'Please select a file to upload and associate as an artifact with this carrier.');                
             }
+
         } else {
-            // Form validation failed
-            return Redirect::to('carriers/' . $carrier_id. '/artifacts/create')->withInput()->withErrors($validator);
+            return Redirect::to('carriers')->with('error', 'Carrier not found.');
         }
     }
 
@@ -239,11 +248,11 @@ class ArtifactController extends BaseController
         // Was the artifact deleted?
         if ($artifact->delete()) {
             // Redirect to the artifact management page
-            return Redirect::to('carriers/' . $carrier_id. '/artifacts')->with('success', Lang::get('artifact/messages.delete.success'));
+            return Redirect::to('carriers/' . $carrier_id)->with('success', Lang::get('artifact/messages.delete.success'));
         }
 
         // There was a problem deleting the artifact
-        return Redirect::to('carriers/' . $carrier_id. '/artifacts')->with('error', Lang::get('artifact/messages.delete.error'));
+        return Redirect::to('carriers/' . $carrier_id)->with('error', Lang::get('artifact/messages.delete.error'));
     }
 
     /**
@@ -253,25 +262,48 @@ class ArtifactController extends BaseController
      */
     public function data($carrier_id)
     {
-        //Make this method testable and mockable by using our injected $artifact member.
-        $artifacts = $this->artifact->select(array('artifacts.id',  'artifacts.name', 'artifacts.created_at'))->where('carrier_id', '=', $carrier_id);
+        // We need the archive_id for links to thumbnals or default icons, and so 
+        // therefore need to retrieve the complete carrier object here.
+        $carrier = $this->carrier->find($carrier_id);
 
-        return Datatables::of($artifacts)
-        // ->edit_column('created_at','{{{ Carbon::now()->diffForHumans(Carbon::createFromFormat(\'Y-m-d H\', $test)) }}}')
+        if($carrier->id) {
 
-        ->add_column('actions', '<div class="btn-group">
-                  <button type="button" class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown">
-                    Action <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{{ URL::to(\'carriers/' . $carrier_id. '/artifacts/\' . $id ) }}}">{{{ Lang::get(\'button.show\') }}}</a></li>
-                    <li><a href="{{{ URL::to(\'carriers/' . $carrier_id. '/artifacts/\' . $id . \'/edit\' ) }}}">{{{ Lang::get(\'button.edit\') }}}</a></li>
-                    <li><a href="{{{ URL::to(\'carriers/' . $carrier_id. '/artifacts/\' . $id . \'/delete\' ) }}}">{{{ Lang::get(\'button.delete\') }}}</a></li>
-                  </ul>
-                </div>')
+            //Make this method testable and mockable by using our injected $artifact member.
+            $artifacts = $this->artifact->select(array('artifacts.id',  'artifacts.name', 'artifacts.created_at'))->where('carrier_id', '=', $carrier_id);
 
-        ->remove_column('id')
+            return Datatables::of($artifacts)
+            // ->edit_column('created_at','{{{ Carbon::now()->diffForHumans(Carbon::createFromFormat(\'Y-m-d H\', $test)) }}}')
 
-        ->make();
+            //See below - need to change name of added column - archive_id is automatically added at the end.
+            ->add_column('thumbnail', '<a href="{{{ URL::to(\'carriers/' . $carrier_id. '/artifacts/\' . $id ) }}}"> <img src="{{{ URL::to(\'/artifact/' . $carrier->archive_id . '/thumbnails/\' . $name ) }}}"/> </a>', 0)
+
+            ->add_column('actions', '<div class="btn-group">
+                      <button type="button" class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown">
+                        Action <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="{{{ URL::to(\'carriers/' . $carrier_id. '/artifacts/\' . $id ) }}}">{{{ Lang::get(\'button.show\') }}}</a></li>
+                        <li><a href="{{{ URL::to(\'carriers/' . $carrier_id. '/artifacts/\' . $id . \'/edit\' ) }}}">{{{ Lang::get(\'button.edit\') }}}</a></li>
+                        <li><a href="{{{ URL::to(\'carriers/' . $carrier_id. '/artifacts/\' . $id . \'/delete\' ) }}}">{{{ Lang::get(\'button.delete\') }}}</a></li>
+                      </ul>
+                    </div>')
+
+            ->remove_column('id')
+
+            ->make();
+
+        }
+    }
+
+    /**
+     * Send an artifact image or default thumbnail.
+     *
+     * @return file
+     */
+    public function send_image($archive_id, $style, $name)
+    {
+        $path = Config::get('workflow.repository') . $archive_id . DIRECTORY_SEPARATOR . $style . DIRECTORY_SEPARATOR . $name;
+        //return Response::download($path, $name, $headers);
+        return Response::download($path);
     }
 }

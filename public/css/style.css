@@ -46,9 +46,9 @@ legend {
 	width: auto;
 }
 
-#file {
+#artifact {
   /* Note: display:none on the input won't trigger the click event in WebKit.
-    Setting visibility: hidden and height/width:0 works great. */
+    Setting visibility: hidden and height/width:0 works great.*/
   visibility: hidden;
   width: 0;
   height: 0;
@@ -59,4 +59,5 @@ legend {
 
 #fileName {
 	height: 30px;
+	width: 300px;
 }
