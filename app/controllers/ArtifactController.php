@@ -31,9 +31,10 @@ class ArtifactController extends BaseController
     protected $fileRepo;
 
     /**
-     * Inject the models.
+     * Inject the models and repository service class.
      * @param Artifact $artifact
      * @param Carrier $carrier
+     * @param FileRepository $fileRepo
      */
     public function __construct(Artifact $artifact, Carrier $carrier, FileRepository $fileRepo)
     {
@@ -116,7 +117,7 @@ class ArtifactController extends BaseController
 
         if($carrier->id) {
             
-            // Get the inputs, with some exceptions
+            // Check to see if a file has been uploaded
             if (Input::hasFile('artifact')) {
 
                 $uploaded = Input::file('artifact')->getRealPath();
