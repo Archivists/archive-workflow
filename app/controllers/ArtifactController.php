@@ -243,16 +243,22 @@ class ArtifactController extends BaseController
      */
     public function destroy($carrier_id, $id)
     {
-        $artifact = $this->artifact->where('id', '=', $id)->where('carrier_id', '=', $carrier_id)->first();;
+        $artifact = $this->artifact->where('id', '=', $id)->where('carrier_id', '=', $carrier_id)->first();
 
-        // Was the artifact deleted?
-        if ($artifact->delete()) {
-            // Redirect to the artifact management page
-            return Redirect::to('carriers/' . $carrier_id)->with('success', Lang::get('artifact/messages.delete.success'));
+        if ($this->fileRepo->delete_file($artifact->carrier->archive_id, $artifact->name)) {
+
+            // Was the artifact deleted?
+            if ($artifact->delete()) {
+                // Redirect to the artifact management page
+                return Redirect::to('carriers/' . $carrier_id)->with('success', Lang::get('artifact/messages.delete.success'));
+            }
+
+            // There was a problem deleting the artifact
+            return Redirect::to('carriers/' . $carrier_id)->with('error', Lang::get('artifact/messages.delete.error'));
+        } else {
+            // There was a problem deleting the artifact
+            return Redirect::to('carriers/' . $carrier_id)->with('error', 'There was a problem removing the artificat file.');
         }
-
-        // There was a problem deleting the artifact
-        return Redirect::to('carriers/' . $carrier_id)->with('error', Lang::get('artifact/messages.delete.error'));
     }
 
     /**
@@ -303,7 +309,41 @@ class ArtifactController extends BaseController
     public function send_image($archive_id, $style, $name)
     {
         $path = Config::get('workflow.repository') . $archive_id . DIRECTORY_SEPARATOR . $style . DIRECTORY_SEPARATOR . $name;
+        $lifetime = 3600; //seconds
+
+        if (file_exists($path)){
+            $filetime = filemtime($path);
+            $etag = md5($filetime . $path);
+            $time = gmdate('r', $filetime);
+            $expires = gmdate('r', $filetime + $lifetime);
+            $length = filesize($path);
+     
+            $headers = array(
+                'Content-Disposition' => 'inline; filename="' . $name . '"',
+                'Last-Modified' => $time,
+                'Cache-Control' => 'must-revalidate',
+                'Expires' => $expires,
+                'Pragma' => 'public',
+                'Etag' => $etag,
+            );
+     
+            $headerTest1 = isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && $_SERVER['HTTP_IF_MODIFIED_SINCE'] == $time;
+            $headerTest2 = isset($_SERVER['HTTP_IF_NONE_MATCH']) && str_replace('"', '', stripslashes($_SERVER['HTTP_IF_NONE_MATCH'])) == $etag;
+            if ($headerTest1 || $headerTest2) { //image is cached by the browser, we dont need to send it again
+                return Response::make('', 304, $headers);
+            }
+
+            $finfo = finfo_open(FILEINFO_MIME_TYPE); 
+            $mime = finfo_file($finfo, $path); 
+     
+            $headers = array_merge($headers, array(
+                'Content-Type' => $mime,
+                'Content-Length' => $length,
+                    ));
+     
+            return Response::make(File::get($path), 200, $headers);
+        }
         //return Response::download($path, $name, $headers);
-        return Response::download($path);
+        // return Response::download($path);
     }
 }

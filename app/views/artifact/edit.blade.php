@@ -12,7 +12,7 @@
 		<div class="page-header clearfix">
 			<h3 class="pull-left">{{{ $title }}}</h3>
 			<div class="pull-right">
-				<a href="{{{ URL::to('carriers/' . $carrier_id. '/artifacts') }}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+				<a href="{{{ URL::to('carriers/' . $carrier_id) }}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
 			</div>
 		</div>
 

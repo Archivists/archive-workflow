@@ -130,33 +130,6 @@ class Image {
         return $this->resize($path, "thumbnails", $long, true);
     }
 
-    /**
-     * Upload an image to the public storage
-     * @param  File $file
-     * @return string
-     */
-    public function upload($file, $dir = null, $createDimensions = false)
-    {
-        if ($file)
-        {
-            // Generate random dir
-            if ( ! $dir) $dir = str_random(8);
-     
-            // Get file info and try to move
-            $destination = Config::get('workflow.upload_path') . $dir;
-            $filename    = $file->getClientOriginalName();
-            $path        = Config::get('workflow.upload_dir') . DIRECTORY_SEPARATOR . $dir . DIRECTORY_SEPARATOR . $filename;
-            $uploaded    = $file->move($destination, $filename);
-     
-            if ($uploaded)
-            {
-                if ($createDimensions) $this->createDimensions($path);
-     
-                return $path;
-            }
-        }
-    }
-
 
     /**
      * Creates image dimensions based on a configuration
@@ -164,8 +137,10 @@ class Image {
      * @param  array  $dimensions
      * @return void
      */
-    public function createDimensions($path, $dimensions = array())
+    public function createImageSet($path, $dimensions = array())
     {
+        $result = true;
+
         // Get default dimensions
         $defaultDimensions = Config::get('workflow.dimensions');
      
@@ -180,7 +155,10 @@ class Image {
             $quality = isset($dimension[3]) ?  (int) $dimension[3] : Config::get('workflow.quality');
      
             // Run resizer
-            $img = $this->resize($path, $style, $long, $crop, $quality);
+            if (! $this->resize($path, $style, $long, $crop, $quality)) {
+              return false;
+            }
         }
+        return true;
     }
 }

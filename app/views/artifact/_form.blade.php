@@ -18,7 +18,7 @@
 	<!-- Form Actions -->
 	<div class="form-group">
 		<div class="controls">
-			<a href="{{{ URL::to('carriers/' . $carrier_id. '/artifacts') }}}" class="btn btn-primary">Cancel</a>
+			<a href="{{{ URL::to('carriers/' . $carrier_id) }}}" class="btn btn-primary">Cancel</a>
 			<button type="submit" class="btn btn-success">OK</button>
 		</div>
 	</div>

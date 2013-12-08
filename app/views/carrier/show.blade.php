@@ -30,7 +30,7 @@
 			<input type="file" name="artifact" id="artifact">
 		  	<div class="form-group {{{ $errors->has('fileName') ? 'has-error' : '' }}}">
 				<a id="fileSelect" class="btn btn-sm btn-primary">Select File</a>
-				<input class="form-control" type="text" name="fileName" id="fileName" placeholder="Select file to upload." readonly value="" />
+				<input class="form-control" type="text" name="fileName" id="fileName" placeholder="Select artifact to upload." readonly value="" />
 				<button type="submit" class="btn btn-sm btn-success">Upload Artifact</button>
 			  	<button type="button" name="clear" id="clear" class="btn btn-sm btn-primary">Clear</button>  	
 			  	<span class="help-block">{{{ $errors->first('fileName', ':message') }}}</span>
