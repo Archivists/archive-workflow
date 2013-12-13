@@ -23,7 +23,7 @@
 		<div class="details">
 			@include('carrier/_details', compact('carrier'))
 		</div>
-
+		<p>&nbsp;</p>
 		<h4>Supporting Artifacts</h4>
 
 		{{ Form::open(array('url' => URL::to('carriers') . '/' . $carrier->id . '/artifacts', 'files' => true, 'method' => 'post', 'class' => 'form-inline')) }}
