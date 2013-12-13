@@ -29,7 +29,7 @@ $app->redirectIfTrailingSlash();
 $env = $app->detectEnvironment(array(
 
 	'local' => array('AGBWKSMAC01.local'),
-    'staging' => array('your-staging-machine-name'),
+    'staging' => array('AGBWKSWIN01'),
     'production' => array('your-production-machine-name'),
 
 ));
