@@ -303,48 +303,75 @@ class ArtifactController extends BaseController
     }
 
     /**
-     * Send an artifact image or default thumbnail.
+     * Send an artifact to the clienet. Either thumbnail, preview, or download.
      *
      * @return file
      */
-    public function send_image($archive_id, $style, $name)
-    {
-        $path = Config::get('workflow.repository') . $archive_id . DIRECTORY_SEPARATOR . $style . DIRECTORY_SEPARATOR . $name;
-        $lifetime = 3600; //seconds
+    public function send_artifact($archive_id, $mode, $name)
+    { 
+        if ($mode == "thumbnails" || $mode == "previews") {
+            
+            $ext = pathinfo($name, PATHINFO_EXTENSION);
 
-        if (file_exists($path)){
-            $filetime = filemtime($path);
-            $etag = md5($filetime . $path);
-            $time = gmdate('r', $filetime);
-            $expires = gmdate('r', $filetime + $lifetime);
-            $length = filesize($path);
-     
-            $headers = array(
-                'Content-Disposition' => 'inline; filename="' . $name . '"',
-                'Last-Modified' => $time,
-                'Cache-Control' => 'must-revalidate',
-                'Expires' => $expires,
-                'Pragma' => 'public',
-                'Etag' => $etag,
-            );
-     
-            $headerTest1 = isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && $_SERVER['HTTP_IF_MODIFIED_SINCE'] == $time;
-            $headerTest2 = isset($_SERVER['HTTP_IF_NONE_MATCH']) && str_replace('"', '', stripslashes($_SERVER['HTTP_IF_NONE_MATCH'])) == $etag;
-            if ($headerTest1 || $headerTest2) { //image is cached by the browser, we dont need to send it again
-                return Response::make('', 304, $headers);
+            switch (strtolower($ext)) {
+                case 'jpeg':
+                case 'gif':
+                case 'jpg':
+                case 'tiff':
+                case 'tif':
+                    $path = Config::get('workflow.repository') . $archive_id . DIRECTORY_SEPARATOR . $mode . DIRECTORY_SEPARATOR . $name;
+                    break;
+                case 'pdf':
+                    $path = public_path() . DIRECTORY_SEPARATOR . "img" . DIRECTORY_SEPARATOR . "icons" . DIRECTORY_SEPARATOR . "icon_pdf.png";
+                    break;
+                case 'doc':
+                case 'docx':
+                    $path = public_path() . DIRECTORY_SEPARATOR . "img" . DIRECTORY_SEPARATOR . "icons" . DIRECTORY_SEPARATOR . "icon_word.png";
+                    break;
+                default:
+                    $path = public_path() . DIRECTORY_SEPARATOR . "img" . DIRECTORY_SEPARATOR . "icons" . DIRECTORY_SEPARATOR . "icon_generic.png";
+                    break;
             }
 
-            $finfo = finfo_open(FILEINFO_MIME_TYPE); 
-            $mime = finfo_file($finfo, $path); 
-     
-            $headers = array_merge($headers, array(
-                'Content-Type' => $mime,
-                'Content-Length' => $length,
-                    ));
-     
-            return Response::make(File::get($path), 200, $headers);
+
+            $lifetime = 3600; //seconds
+
+            if (file_exists($path)){
+                $filetime = filemtime($path);
+                $etag = md5($filetime . $path);
+                $time = gmdate('r', $filetime);
+                $expires = gmdate('r', $filetime + $lifetime);
+                $length = filesize($path);
+         
+                $headers = array(
+                    'Content-Disposition' => 'inline; filename="' . $name . '"',
+                    'Last-Modified' => $time,
+                    'Cache-Control' => 'must-revalidate',
+                    'Expires' => $expires,
+                    'Pragma' => 'public',
+                    'Etag' => $etag,
+                );
+         
+                $headerTest1 = isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && $_SERVER['HTTP_IF_MODIFIED_SINCE'] == $time;
+                $headerTest2 = isset($_SERVER['HTTP_IF_NONE_MATCH']) && str_replace('"', '', stripslashes($_SERVER['HTTP_IF_NONE_MATCH'])) == $etag;
+                if ($headerTest1 || $headerTest2) { //image is cached by the browser, we dont need to send it again
+                    return Response::make('', 304, $headers);
+                }
+
+                $finfo = finfo_open(FILEINFO_MIME_TYPE); 
+                $mime = finfo_file($finfo, $path); 
+         
+                $headers = array_merge($headers, array(
+                    'Content-Type' => $mime,
+                    'Content-Length' => $length,
+                        ));
+         
+                return Response::make(File::get($path), 200, $headers);
+            }
+
+        } else {
+           $path = Config::get('workflow.repository') . $archive_id . DIRECTORY_SEPARATOR . $name;
+           return Response::download($path); 
         }
-        //return Response::download($path, $name, $headers);
-        // return Response::download($path);
     }
 }

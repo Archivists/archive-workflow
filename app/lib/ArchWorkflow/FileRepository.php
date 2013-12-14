@@ -122,7 +122,7 @@ class FileRepository
      * @param String $name
      */
     private function is_image($name) {
-        if (preg_match('/^.*\.(jpg|jpeg|png|gif|tiff)$/i', $name) === 1) {
+        if (preg_match('/^.*\.(jpg|jpeg|png|gif|tiff|tif)$/i', $name) === 1) {
             return true;
         } else {
             return false;
