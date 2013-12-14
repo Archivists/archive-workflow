@@ -10,6 +10,13 @@
 
 .page-header .pull-right { margin: 17px 0 0 0;}
 
+#status_select { padding-right: 10px; }
+
+#status_form #status {
+	width: auto;
+	height: 30px;
+}
+
 .bf {
 	padding: 10px;
 	background-color: #FFF;

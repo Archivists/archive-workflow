@@ -61,9 +61,7 @@
             <ul class="dropdown-menu">
               <li><a href="{{{ URL::to('carriers') }}}">Carriers</a></li>
               <li><a href="{{{ URL::to('carrier-types') }}}">Carrier Types</a></li>
-              <li><a href="#">Something else here</a></li>
-              <li><a href="#">Separated link</a></li>
-              <li><a href="#">One more separated link</a></li>
+              <li><a href="{{{ URL::to('status') }}}">Status Managment</a></li>
             </ul>
           </li>
         </ul>

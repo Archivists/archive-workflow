@@ -21,15 +21,30 @@
 			</div>
 			<!-- ./ carrier shelfNumber -->
 
-			<!-- carrier parts -->
-			<div class="form-group {{{ $errors->has('parts') ? 'has-error' : '' }}}">
-				<label class="control-label" for="parts">Part No.</label>
-				<div class="controls">
-					<input class="form-control" type="text" name="parts" id="parts" value="{{{ Input::old('parts', isset($carrier) ? $carrier->parts : 0) }}}" />
-					<span class="help-block">{{{ $errors->first('parts', ':message') }}}</span>
-				</div>
+
+			<!-- status -->
+			<div class="form-group {{{ $errors->has('status') ? 'has-error' : '' }}}">
+		        <label class="control-label" for="status">Status</label>
+		        <div class="controls">
+
+		            <select class="form-control" name="status" id="status">
+		            	<option value="">Select status...</option>
+		                @foreach ($statuses as $status)
+							@if ($action == 'create')
+		                		<option value="{{{ $status->id }}}" {{{ ( $status->id == $selectedStatus) ? ' selected="selected"' : '' }}}>{{{ $status->name }}}</option>
+		                	@else
+								<option value="{{{ $status->id }}}"{{{ ( $carrier->status && $status->id == $carrier->status->id ) ? ' selected="selected"' : '' }}}>{{{ $status->name }}}</option>
+							@endif
+		                @endforeach
+					</select>
+
+					<span class="help-block">
+						Select a status to assign to this carrier.
+					</span>
+		    	</div>
 			</div>
-			<!-- ./ carrier parts -->
+			<!-- ./ status --> 
+
 
 			<!-- carrier sides -->
 			<div class="form-group {{{ $errors->has('sides') ? 'has-error' : '' }}}">
@@ -47,7 +62,7 @@
 					</select>
 
 					<span class="help-block">
-						Select the sides for this carrier. Note: Select '0', if there is only one side to this carrier - including tapes that have been recorded on one side only.
+						Select the sides for this carrier. Note: Select '2', if there are two recorded sides to this carrier. For example, an A and B side to an audio cassette.
 					</span>
 				</div>
 			</div>

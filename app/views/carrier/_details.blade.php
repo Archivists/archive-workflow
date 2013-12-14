@@ -16,10 +16,16 @@
 				@if (isset($carrier)) {{{ $carrier->shelf_number }}} @endif
 			</div>
 		</div>
-
 	</div>
 
 	<div class="col-md-3">
+
+		<div class="form-group">
+			<label class="control-label" for="status">Status</label>
+			<div class="controls">
+				@if ($carrier->status) {{{ $carrier->status->name }}} @endif
+			</div>
+		</div>
 
 		<div class="form-group">
 			<label class="control-label" for="carrier_type">Carrier Type</label>
@@ -28,14 +34,14 @@
 			</div>
 		</div>
 
-		<div class="form-group">
-			<label class="control-label" for="parts">Parts</label>: @if ($carrier) {{{ $carrier->parts }}} @endif
-			&nbsp;&nbsp;<label class="control-label" for="sides">Sides</label>: @if ($carrier) {{{ $carrier->sides }}} @endif
-		</div>
-
 	</div>
 
 	<div class="col-md-3">
+		
+		<div class="form-group">
+			<label class="control-label" for="sides">Sides</label>: @if ($carrier) {{{ $carrier->sides }}} @endif
+		</div>
+
 		<div class="form-group">
 			<label class="control-label" for="created_by">Created By</label>
 			<div class="controls">

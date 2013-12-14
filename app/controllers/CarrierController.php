@@ -19,6 +19,12 @@ class CarrierController extends BaseController
     protected $carrier;
 
     /**
+     * Status Model
+     * @var Status
+     */
+    protected $status;
+
+    /**
      * CarrierType Model
      * @var CarrierType
      */
@@ -28,10 +34,11 @@ class CarrierController extends BaseController
      * Inject the model.
      * @param Carrier $carrier
      */
-    public function __construct(Carrier $carrier, CarrierType $carrierType)
+    public function __construct(Carrier $carrier, Status $status, CarrierType $carrierType)
     {
         parent::__construct();
         $this->carrier = $carrier;
+        $this->status = $status;
         $this->carrierType = $carrierType;
     }
 
@@ -49,8 +56,13 @@ class CarrierController extends BaseController
         // Title
         $title = Lang::get('carrier/title.carrier_management');
 
+        $selectedStatus = Input::get('status');
+
+         // All carrier types
+        $statuses = $this->status->all();
+
         // Show the page
-        return View::make('carrier/index', compact('title'));
+        return View::make('carrier/index', compact('title', 'statuses', 'selectedStatus'));
     }
 
     /**
@@ -88,16 +100,23 @@ class CarrierController extends BaseController
         // All carrier types
         $carrierTypes = $this->carrierType->all();
 
+        // All carrier types
+        $statuses = $this->status->all();
+
         // Sides
-        $sides = array("0" => 0, "1" => 1, "2" => 2);
+        $sides = array("1" => 1, "2" => 2);
+        
         // Selected side
         $selectedSide = Input::old('sides', array());
+
+        // Selected status
+        $selectedStatus = Input::old('status', array());
 
         // Selected carrier type
         $selectedType = Input::old('carrier-type', array());
 
         // Show the page
-        return View::make('carrier/create', compact('title', 'sides', 'selectedSide', 'carrierTypes', 'selectedType'));
+        return View::make('carrier/create', compact('title', 'sides', 'selectedSide', 'statuses', 'selectedStatus', 'carrierTypes', 'selectedType'));
     }
 
     /**
@@ -110,8 +129,8 @@ class CarrierController extends BaseController
         // Validate the inputs
         $rules = array(
             'shelf_number'=> 'required|alpha_dash|unique:carriers,shelf_number',
-            'parts' => 'required|numeric',
             'sides' => 'required',
+            'status' => 'required',
             'carrier_type'=> 'required'
             );
         
@@ -125,13 +144,14 @@ class CarrierController extends BaseController
             $inputs = Input::except('csrf_token');
 
             $carrierType = $this->carrierType->find($inputs['carrier_type']);
+            $status = $this->status->find($inputs['status']);
 
-            if ($carrierType) {
+            if ($carrierType && $status) {
 
                 $this->carrier->shelf_number = $inputs['shelf_number'];
-                $this->carrier->parts = $inputs['parts'];
                 $this->carrier->sides = $inputs['sides'];
                 $this->carrier->notes = $inputs['notes'];
+                $this->carrier->status()->associate($status);
                 $this->carrier->carrierType()->associate($carrierType);
 
                 if ($this->carrier->save($rules)) {
@@ -176,7 +196,7 @@ class CarrierController extends BaseController
         $title = Lang::get('carrier/title.carrier_update');
 
         // Sides
-        $sides = array("0" => 0, "1" => 1, "2" => 2);
+        $sides = array("1" => 1, "2" => 2);
 
         // Selected side
         $selectedSide = Input::old('sides', 0);
@@ -187,8 +207,14 @@ class CarrierController extends BaseController
         // Selected carrier type
         $selectedType = Input::old('carrier-type', array());
 
+        // All carrier types
+        $statuses = $this->status->all();
+
+         // Selected status
+        $selectedStatus = Input::old('status', array());
+
         // Show the page
-        return View::make('carrier/edit', compact('carrier', 'title', 'sides', 'selectedSide', 'carrierTypes', 'selectedType'));
+        return View::make('carrier/edit', compact('carrier', 'title', 'sides', 'selectedSide', 'statuses', 'selectedStatus', 'carrierTypes', 'selectedType'));
     }
 
     /**
@@ -203,8 +229,8 @@ class CarrierController extends BaseController
 
         $rules = array(
                 'shelf_number'=> 'required|alpha_dash|unique:carriers,shelf_number,' . $carrier->id,
-                'parts' => 'required|numeric',
                 'sides' => 'required',
+                'status' => 'required',
                 'carrier_type'=> 'required'
             );
 
@@ -218,13 +244,14 @@ class CarrierController extends BaseController
             $inputs = Input::except('csrf_token');
 
             $carrierType = $this->carrierType->find($inputs['carrier_type']);
+            $status = $this->status->find($inputs['status']);
 
-            if ($carrierType) {
+            if ($carrierType && $status) {
 
                 $carrier->shelf_number = $inputs['shelf_number'];
-                $carrier->parts = $inputs['parts'];
                 $carrier->sides = $inputs['sides'];
                 $carrier->notes = $inputs['notes'];
+                $carrier->status()->associate($status);
                 $carrier->carrierType()->associate($carrierType);
 
                 // Was the carrier updated?
@@ -296,7 +323,8 @@ class CarrierController extends BaseController
     public function data()
     {
         //Make this method testable and mockable by using our injected $carrier member.
-        $carriers = $this->carrier->select(array('carriers.id', 'carriers.shelf_number', 'carriers.parts', 'carriers.sides', 'carriers.created_at'));
+        $carriers = $this->carrier->leftjoin('status', 'status.id', '=', 'carriers.status_id')
+                ->select(array('carriers.id', 'carriers.shelf_number', 'status.name as status', 'carriers.sides', 'carriers.created_at'));
 
         return Datatables::of($carriers)
         // ->edit_column('created_at','{{{ Carbon::now()->diffForHumans(Carbon::createFromFormat(\'Y-m-d H\', $test)) }}}')   

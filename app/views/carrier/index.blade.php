@@ -9,8 +9,24 @@
 @section('content')
 	<div class="page-header clearfix">
 		<h3 class="pull-left">{{{ $title }}}</h3>
+
 		<div class="pull-right">
 			<a href="{{{ URL::to('carriers/create') }}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span>{{{ Lang::get('carrier/title.create_a_new_carrier') }}}</a>
+		</div>
+
+		<div id="status_select" class="pull-right">
+			{{ Form::open(array('url' => URL::to('carriers'), 'id' => 'status_form', 'method' => 'get', 'class' => 'form-inline')) }}
+				<label class="control-label" for="status">Status: </label>
+		        
+		            <select class="form-control" name="status" id="status">
+		            	<option value="all">All</option>
+		                @foreach ($statuses as $status)
+		                	<option value="{{{ $status->id }}}" {{{ ( $status->id == $selectedStatus) ? ' selected="selected"' : '' }}}>{{{ $status->name }}}</option>
+		                @endforeach
+					</select>
+		    	
+		  	
+			{{ Form::close() }}
 		</div>
 	</div>
 
@@ -23,7 +39,7 @@
 			<tr>
 				<th>{{{ Lang::get('carrier/table.archive_id') }}}</th>
 				<th>{{{ Lang::get('carrier/table.shelf_number') }}}</th>
-				<th>{{{ Lang::get('carrier/table.parts') }}}</th>
+				<th>{{{ Lang::get('carrier/table.status') }}}</th>
 				<th>{{{ Lang::get('carrier/table.sides') }}}</th>
 				<th>{{{ Lang::get('carrier/table.created_at') }}}</th>
 				<th>{{{ Lang::get('table.actions') }}}</th>
@@ -51,8 +67,13 @@
 		        "sAjaxSource": "{{ URL::to('carriers/data') }}"
 			});
 
-			$("#roles_filter input").addClass("form-control inline-control input-sm");
-			$("#roles_length select").addClass("form-control inline-control");
+			$("#carriers_filter input").addClass("form-control inline-control input-sm");
+			$("#carriers_length select").addClass("form-control inline-control");
+
+			$('#status').on('change', function(s) {
+				$("form").submit();
+			});
+
 		});
 	</script>
 @stop

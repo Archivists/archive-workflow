@@ -9,9 +9,20 @@ class Carrier extends Eloquent {
 	 */
 	protected $table = 'carriers';
 
+    
+    /**
+     * Our computed archive_id column - included here so that JSON or other 
+     * auto-generating property enumerators will include it.
+     *
+     * @var string
+     */
     protected $appends = array('archive_id');
 
     
+    /**
+     * Static event wire-up method
+     *
+     */
     public static function boot()
     {
         parent::boot();
@@ -42,6 +53,15 @@ class Carrier extends Eloquent {
     public function carrierType()
     {
         return $this->belongsTo('CarrierType');
+    }
+
+    /**
+     * The inverse belongs to relationship with Status
+     *
+     */
+    public function status()
+    {
+        return $this->belongsTo('Status');
     }
 
     /**
