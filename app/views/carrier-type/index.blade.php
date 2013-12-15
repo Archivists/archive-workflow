@@ -49,8 +49,8 @@
 		        "sAjaxSource": "{{ URL::to('carrier-types/data') }}"
 			});
 
-			$("#roles_filter input").addClass("form-control inline-control input-sm");
-			$("#roles_length select").addClass("form-control inline-control");
+			$("#carrier-types_filter input").addClass("form-control inline-control input-sm");
+			$("#carrier-types_length select").addClass("form-control inline-control");
 		});
 	</script>
 @stop
