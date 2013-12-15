@@ -19,8 +19,8 @@ class CreateCarriersTable extends Migration {
 			$table->integer('sides')->default(1);
 			$table->integer('status_id');
 			$table->integer('carrier_type_id');
-			$table->string('created_by')->default("");;
-		    $table->string('updated_by')->default("");;
+			$table->string('created_by')->default("");
+		    $table->string('updated_by')->default("");
 			$table->timestamps();
 		});
 	}
