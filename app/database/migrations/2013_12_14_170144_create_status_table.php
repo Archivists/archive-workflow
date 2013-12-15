@@ -18,8 +18,8 @@ class CreateStatusTable extends Migration {
 			$table->integer('order');
 			$table->string('name');
 			$table->string('description');
-			$table->string('created_by');
-		    $table->string('updated_by');
+			$table->string('created_by')->default("");
+		    $table->string('updated_by')->default("");
 			$table->timestamps();
 		});
 	}

@@ -17,8 +17,8 @@ class CreateArtifactsTable extends Migration {
 			$table->increments('id');
 			$table->string('name');
 			$table->integer('carrier_id');
-			$table->string('created_by');
-		    $table->string('updated_by');
+			$table->string('created_by')->default("");
+		    $table->string('updated_by')->default("");
 			$table->timestamps();
 		});
 	}
