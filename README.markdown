@@ -184,8 +184,8 @@ An example configuration setting can be found in ***app/config/workflow.php*** a
     'upload_path' => public_path() . '/uploads/',
     'quality'     => 85,
     'dimensions' => array(
-        'thumb'  => array(100, 100, true,  80),
-        'medium' => array(600, 400, false, 90),
+        'thumb'  => array('thumbnails', 100, true,  80),
+        'medium' => array('previews', 800, false, 90),
     ),
 
 
@@ -206,7 +206,7 @@ By default debugging is enabled. Before you go to production you should disable 
 
     'debug' => false,
 
-You can use the local PHP server to run the application locally.
+You can use the local PHP server to run the application locally. NOTE: On last attempt - uploading artifacts to the built-in PHP server did not work, and so to test uploads, you'll need to configure a local webserver (Apache or IIS).
 
 `php artisan serve --port=4000`
 
