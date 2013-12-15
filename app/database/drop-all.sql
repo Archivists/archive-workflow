@@ -1,0 +1,12 @@
+DROP TABLE `archworkflow_www`.`migrations`;
+DROP TABLE `archworkflow_www`.`password_reminders`;
+DROP TABLE `archworkflow_www`.`assigned_roles`;
+DROP TABLE `archworkflow_www`.`permission_role`;
+DROP TABLE `archworkflow_www`.`permissions`;
+DROP TABLE `archworkflow_www`.`roles`;
+DROP TABLE `archworkflow_www`.`users`;
+DROP TABLE `archworkflow_www`.`carrier_types`;
+DROP TABLE `archworkflow_www`.`status`;
+DROP TABLE `archworkflow_www`.`artifacts`;
+DROP TABLE `archworkflow_www`.`carriers`;
+DROP TABLE `archworkflow_www`.`widgets`;
