@@ -46,6 +46,21 @@ class Carrier extends Eloquent {
 
     }
 
+
+    /**
+     * Workflow status scope based on user session value.
+     *
+     */
+    public function scopeWorkflow($query)
+    {
+        $value = Session::get('status', 'all');
+        if ($value != 'all') {
+            return $query->where('status_id', '=', $value);
+        } else {
+            return $query;
+        }
+    }
+
     /**
      * The inverse belongs to relationship with CarrierType
      *

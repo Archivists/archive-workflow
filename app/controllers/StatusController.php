@@ -91,6 +91,7 @@ class StatusController extends BaseController
         // Validate the inputs
         $rules = array(
             'name'=> 'required|unique:status,name',
+            'order' => 'required|integer',
             'description'=> 'required'
             );
 
@@ -103,6 +104,7 @@ class StatusController extends BaseController
             $inputs = Input::except('csrf_token');
 
             $this->status->name = $inputs['name'];
+            $this->status->order = $inputs['order'];
             $this->status->description = $inputs['description'];
             
             if ($this->status->save($rules)) {
@@ -156,6 +158,7 @@ class StatusController extends BaseController
 
         $rules = array(
                 'name'=> 'required|unique:status,name,' . $status->id,
+                'order' => 'required|integer',
                 'description' => 'required'
             );
 
@@ -165,6 +168,7 @@ class StatusController extends BaseController
         // Check if the form validates with success
         if ($validator->passes()) {
             $status->name        = Input::get('name');
+            $status->order        = Input::get('order');
             $status->description = Input::get('description');
 
             // Was the status updated?
@@ -232,7 +236,9 @@ class StatusController extends BaseController
     public function data()
     {
         //Make this method testable and mockable by using our injected $status member.
-        $status = $this->status->select(array('status.id',  'status.name', 'status.description', 'status.created_at'));
+        $status = $this->status
+            ->select(array('status.id', 'status.name', 'status.order', 'status.description', 'status.created_at'))
+            ->sequence();
 
         return Datatables::of($status)
         // ->edit_column('created_at','{{{ Carbon::now()->diffForHumans(Carbon::createFromFormat(\'Y-m-d H\', $test)) }}}')

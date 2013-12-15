@@ -15,6 +15,16 @@
 	</div>
 	<!-- ./ status name -->
 
+	<!-- status order -->
+	<div class="form-group {{{ $errors->has('order') ? 'has-error' : '' }}}">
+		<label class="control-label" for="order">Order</label>
+		<div class="controls">
+			<input class="form-control" type="text" name="order" id="order" value="{{{ Input::old('order', isset($status) ? $status->order : null) }}}" />
+			<span class="help-block">{{{ $errors->first('order', ':message') }}}</span>
+		</div>
+	</div>
+	<!-- ./ status order -->
+
 	<!-- status description -->
 	<div class="form-group {{{ $errors->has('description') ? 'has-error' : '' }}}">
 		<label class="control-label" for="description">Description</label>

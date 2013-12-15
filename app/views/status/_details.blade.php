@@ -8,6 +8,15 @@
 </div>
 <!-- ./ name -->
 
+<!-- order -->
+<div class="form-group">
+	<label class="control-label" for="order">Order</label>
+	<div class="controls">
+		@if (isset($status)) {{{ $status->order }}} @endif
+	</div>
+</div>
+<!-- ./ order -->
+
 <!-- description -->
 <div class="form-group">
 	<label class="control-label" for="name">Description</label>

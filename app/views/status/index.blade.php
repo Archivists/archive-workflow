@@ -22,6 +22,7 @@
 		<thead>
 			<tr>
 				<th>{{{ Lang::get('status/table.name') }}}</th>
+				<th>{{{ Lang::get('status/table.order') }}}</th>
 				<th>{{{ Lang::get('status/table.description') }}}</th>
 				<th>{{{ Lang::get('status/table.created_at') }}}</th>
 				<th>{{{ Lang::get('table.actions') }}}</th>
@@ -49,8 +50,8 @@
 		        "sAjaxSource": "{{ URL::to('status/data') }}"
 			});
 
-			$("#roles_filter input").addClass("form-control inline-control input-sm");
-			$("#roles_length select").addClass("form-control inline-control");
+			$("#status_filter input").addClass("form-control inline-control input-sm");
+			$("#status_length select").addClass("form-control inline-control");
 		});
 	</script>
 @stop

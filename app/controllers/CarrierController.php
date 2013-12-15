@@ -56,10 +56,16 @@ class CarrierController extends BaseController
         // Title
         $title = Lang::get('carrier/title.carrier_management');
 
-        $selectedStatus = Input::get('status');
+        $selectedStatus = Session::get('status', 'all'); //Default to 'all' if status is not yet set.
+        $input = Input::get('status');
 
-         // All carrier types
-        $statuses = $this->status->all();
+        if ($input && $input != $selectedStatus) {
+            Session::put('status', $input);
+            $selectedStatus = $input;
+        }
+
+         // All carrier types by sequence order (see Status model for scope)
+        $statuses = $this->status->sequence()->get();
 
         // Show the page
         return View::make('carrier/index', compact('title', 'statuses', 'selectedStatus'));
@@ -101,7 +107,7 @@ class CarrierController extends BaseController
         $carrierTypes = $this->carrierType->all();
 
         // All carrier types
-        $statuses = $this->status->all();
+        $statuses = $this->status->sequence()->get();
 
         // Sides
         $sides = array("1" => 1, "2" => 2);
@@ -208,7 +214,7 @@ class CarrierController extends BaseController
         $selectedType = Input::old('carrier-type', array());
 
         // All carrier types
-        $statuses = $this->status->all();
+        $statuses = $this->status->sequence()->get();
 
          // Selected status
         $selectedStatus = Input::old('status', array());
@@ -323,7 +329,9 @@ class CarrierController extends BaseController
     public function data()
     {
         //Make this method testable and mockable by using our injected $carrier member.
-        $carriers = $this->carrier->leftjoin('status', 'status.id', '=', 'carriers.status_id')
+        $carriers = $this->carrier
+                ->workflow()
+                ->leftjoin('status', 'status.id', '=', 'carriers.status_id')
                 ->select(array('carriers.id', 'carriers.shelf_number', 'status.name as status', 'carriers.sides', 'carriers.created_at'));
 
         return Datatables::of($carriers)
@@ -345,7 +353,7 @@ class CarrierController extends BaseController
 
         ->remove_column('id')
 
-        //Weird - archive_id is automatically added at the end.
+        //Weird - archive_id is automatically added at the end, and we had to add archive_no above.
         ->remove_column('archive_id')
 
         ->make();

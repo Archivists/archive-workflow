@@ -18,4 +18,14 @@ class Status extends Eloquent {
         return $this->hasMany('Carrier');
     }
 
+
+    /**
+     *  Status scope based on order.
+     *
+     */
+    public function scopeSequence($query)
+    {
+        return $query->orderBy('order');
+    }
+
 }
