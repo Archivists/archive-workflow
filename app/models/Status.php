@@ -9,6 +9,18 @@ class Status extends Eloquent {
 	 */
 	protected $table = 'status';
 
+
+    /**
+     * Add auditable events.
+     *
+     * @var string
+     */
+    public static function boot()
+    {
+        parent::boot();
+        Status::observe(new AuditableObserver);
+    }
+
      /**
      * The one-to-many relationship with Carrier
      *

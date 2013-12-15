@@ -9,6 +9,18 @@ class Carrier extends Eloquent {
 	 */
 	protected $table = 'carriers';
 
+
+    /**
+     * Add auditable events.
+     *
+     * @var string
+     */
+    public static function boot()
+    {
+        parent::boot();
+        Carrier::observe(new AuditableObserver);
+    }
+
     
     /**
      * Our computed archive_id column - included here so that JSON or other 
@@ -17,34 +29,6 @@ class Carrier extends Eloquent {
      * @var string
      */
     protected $appends = array('archive_id');
-
-    
-    /**
-     * Static event wire-up method
-     *
-     */
-    public static function boot()
-    {
-        parent::boot();
-
-        // Setup event bindings...
-
-        Carrier::creating(function($carrier)
-        {
-            //We de-normalize username.
-            $carrier->created_by = Auth::user()->username;
-            $carrier->updated_by = Auth::user()->username;
-
-        });
-
-
-        Carrier::updating(function($carrier)
-        {
-            $carrier->updated_by = Auth::user()->username;
-
-        });
-
-    }
 
 
     /**

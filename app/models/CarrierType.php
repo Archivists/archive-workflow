@@ -9,6 +9,17 @@ class CarrierType extends Eloquent {
 	 */
 	protected $table = 'carrier_types';
 
+    /**
+     * Add auditable events.
+     *
+     * @var string
+     */
+    public static function boot()
+    {
+        parent::boot();
+        CarrierType::observe(new AuditableObserver);
+    }
+
      /**
      * The one-to-many relationship with Carrier
      *

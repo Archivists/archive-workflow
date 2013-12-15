@@ -9,6 +9,17 @@ class Artifact extends Eloquent {
 	 */
 	protected $table = 'artifacts';
 
+    /**
+     * Add auditable events.
+     *
+     * @var string
+     */
+    public static function boot()
+    {
+        parent::boot();
+        Artifact::observe(new AuditableObserver);
+    }
+
     
      /**
      * The inverse belongs to relationship with Carrier
