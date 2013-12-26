@@ -113,7 +113,8 @@ Route::group(array('before' => 'auth'), function()
 	
 	// Pre-baked resource controller actions for index, create, store, 
 	// show, edit, update, destroy
-	Route::resource('carriers/{carrier}/artifacts', 'ArtifactController');
+	Route::resource('carriers/{carrier}/artifacts', 'ArtifactController',
+		array('except' => array('edit', 'update')));
 	
 	// Our special delete confirmation route - uses the show/details view.
 	// NOTE: For model biding above to work - the plural paramameter {carriers} needs

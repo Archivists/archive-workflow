@@ -78,13 +78,14 @@ class ArtifactController extends BaseController
     public function show($carrier_id, $id)
     {
         $artifact = $this->artifact->where('id','=',$id)->where('carrier_id', '=', $carrier_id)->first();
+        $carrier = $this->carrier->find($carrier_id);
 
         if ($artifact->id) {
             // Title
             $title = Lang::get('artifact/title.artifact_show');
 
             // Show the page
-            return View::make('artifact/show', compact('carrier_id', 'artifact', 'title'));
+            return View::make('artifact/show', compact('carrier', 'artifact', 'title'));
 
         } else {
             // Redirect to the artifact management page
@@ -149,71 +150,6 @@ class ArtifactController extends BaseController
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param $artifact
-     * @return Response
-     */
-    public function edit($carrier_id, $id)
-    {
-        $artifact = $this->artifact->where('id', '=', $id)->where('carrier_id', '=', $carrier_id)->first();;
-
-        if ($artifact) {
-
-        } else {
-            // Redirect to the artifact management page
-            return Redirect::to('carriers/' . $carrier_id. '/artifacts')->with('error', Lang::get('artifact/messages.does_not_exist'));
-        }
-
-        // Title
-        $title = Lang::get('artifact/title.artifact_update');
-
-        // Show the page
-        return View::make('artifact/edit', compact('carrier_id', 'artifact', 'title'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param $artifact
-     * @return Response
-     */
-    public function update($carrier_id, $id)
-    {
-        $artifact = $this->artifact->where('id', '=', $id)->where('carrier_id', '=', $carrier_id)->first();;
-
-        $rules = array(
-                'name'=> 'required|alpha_dash|unique:artifacts,name,' . $artifact->id
-            );
-
-        // Validate the inputs
-        $validator = Validator::make(Input::all(), $rules);
-
-        // Check if the form validates with success
-        if ($validator->passes()) {
-
-            // Get the inputs, with some exceptions
-            $inputs = Input::except('csrf_token');
-
-            $artifact->name = $inputs['name'];
-            $artifact->carrier_id = $carrier_id;
-            //$artifact->description = $inputs['description'];
-
-            // Was the artifact updated?
-            if ($artifact->save($rules)) {
-                // Redirect to the artifact page
-                return Redirect::to('carriers/' . $carrier_id. '/artifacts/' . $artifact->id . '/edit')->with('success', Lang::get('artifact/messages.update.success'));
-            } else {
-                // Redirect to the artifact page
-                return Redirect::to('carriers/' . $carrier_id. '/artifacts/' . $artifact->id . '/edit')->with('error', Lang::get('artifact/messages.update.error'));
-            }
-        } else {
-            // Form validation failed
-            return Redirect::to('carriers/' . $carrier_id. '/artifacts/' . $artifact->id . '/edit')->withInput()->withErrors($validator);
-        }
-    }
-
-    /**
      * Remove artifact page.
      *
      * @param $artifact
@@ -221,20 +157,20 @@ class ArtifactController extends BaseController
      */
     public function delete($carrier_id, $id)
     {
-        $artifact = $this->artifact->where('id', '=', $id)->where('carrier_id', '=', $carrier_id)->first();;
+        $artifact = $this->artifact->where('id', '=', $id)->where('carrier_id', '=', $carrier_id)->first();
+        $carrier = $this->carrier->find($carrier_id);
 
         // Title
         $title = Lang::get('artifact/title.artifact_delete');
 
         if ($artifact) {
+            // Show the record
+            return View::make('artifact/delete', compact('carrier', 'artifact', 'title'));
 
         } else {
             // Redirect to the artifact management page
             return Redirect::to('carriers/' . $carrier_id. '/artifacts')->with('error', Lang::get('artifact/messages.does_not_exist'));
         }
-
-        // Show the record
-        return View::make('artifact/delete', compact('carrier_id', 'artifact', 'title'));
     }
 
     /**
@@ -290,7 +226,7 @@ class ArtifactController extends BaseController
                       </button>
                       <ul class="dropdown-menu" role="menu">
                         <li><a href="{{{ URL::to(\'carriers/' . $carrier_id. '/artifacts/\' . $id ) }}}">{{{ Lang::get(\'button.show\') }}}</a></li>
-                        <li><a href="{{{ URL::to(\'carriers/' . $carrier_id. '/artifacts/\' . $id . \'/edit\' ) }}}">{{{ Lang::get(\'button.edit\') }}}</a></li>
+                        <li><a href="{{{ URL::to(\'/artifact/' . $carrier->archive_id . '/download/\' . $name ) }}}"> {{{ Lang::get(\'button.download\') }}}</a></li>
                         <li><a href="{{{ URL::to(\'carriers/' . $carrier_id. '/artifacts/\' . $id . \'/delete\' ) }}}">{{{ Lang::get(\'button.delete\') }}}</a></li>
                       </ul>
                     </div>')

@@ -4,5 +4,6 @@ return array(
 
 	'show'   => 'Show',
 	'edit'   => 'Edit',
-	'delete' => 'Delete'
+	'delete' => 'Delete',
+    'download' => 'Download'
 );

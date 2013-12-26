@@ -70,8 +70,7 @@
 	<div class="controls">
 		@if ($action == 'show')
 			<a href="{{{ URL::to('carriers') }}}" class="btn btn-sm btn-primary">Close</a>
-			<a href="{{{ URL::to('carriers/' . $carrier->id . '/edit') }}}" class="btn btn-sm btn-primary">Edit Carrier</a>
-			<a href="#" class="btn btn-sm btn-primary">Create Job for Carrier</a>
+			<a href="#" class="btn btn-sm btn-success">Change Status</a>
 		@else
 			<a href="{{{ URL::to('carriers') }}}" class="btn btn-sm btn-primary">Cancel</a>
 			<button type="submit" class="btn btn-sm btn-danger">Delete</button>
