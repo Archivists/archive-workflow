@@ -10,7 +10,7 @@
 @section('content')
 
 <div class="row">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-6 col-md-offset-3 login">
         <div class="page-header">
             <h3>Log in</h3>
         </div>

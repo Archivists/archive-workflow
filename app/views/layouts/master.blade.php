@@ -55,7 +55,7 @@
         <a class="navbar-brand" href="#">Archive Workflow</a>
       </div>
         <ul class="nav navbar-nav navbar-left">
-          <li class="{{ (Request::is('/') ? ' active' : '') }}"><a href="/"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+          <li class="{{ (Request::is('/') ? ' active' : '') }}"><a href="{{{ URL::to('carriers') }}}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Carrier Managment <b class="caret"></b></a>
             <ul class="dropdown-menu">
