@@ -119,6 +119,7 @@ return array(
 		'ArchWorkflow\DawPickupServiceProvider',
     	'ArchWorkflow\FileRepositoryServiceProvider',
     	'ArchWorkflow\ImageServiceProvider',
+    	'ArchWorkflow\StatusActionsServiceProvider',
 
 	),
 
@@ -190,6 +191,8 @@ return array(
 		'DawPickup'		  => 'ArchWorkflow\DawPickup',
     	'FileRepository'  => 'ArchWorkflow\FileRepository',
     	'Image'  	 	  => 'ArchWorkflow\Image',
+    	'StatusActions'   => 'ArchWorkflow\StatusActions',
+
 	),
 
 );

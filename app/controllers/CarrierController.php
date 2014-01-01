@@ -106,7 +106,7 @@ class CarrierController extends BaseController
         // All carrier types
         $carrierTypes = $this->carrierType->all();
 
-        // All carrier types
+        // All status types
         $statuses = $this->status->sequence()->get();
 
         // Sides

@@ -112,7 +112,9 @@ Route::group(array('before' => 'auth'), function()
 	Route::get('carriers/{carrier}/artifacts/data', 'ArtifactController@data');
 	
 	// Pre-baked resource controller actions for index, create, store, 
-	// show, edit, update, destroy
+	// show, edit, update, destroy. Note: We exclude edit and update, because
+	// artifacts are handled on the carrier show page. They are either added,
+	// or removed. 
 	Route::resource('carriers/{carrier}/artifacts', 'ArtifactController',
 		array('except' => array('edit', 'update')));
 	
@@ -125,6 +127,16 @@ Route::group(array('before' => 'auth'), function()
 	Route::get('/artifact/{archive_id}/{mode}/{name}', 'ArtifactController@send_artifact');
 
 
+	/** ------------------------------------------
+ 	*  Carrier Status Change
+ 	*  ------------------------------------------
+ 	*/
+
+ 	// Our dedicated Carrier status change route and controller. 
+	Route::get('carriers/{carrier}/status',  'StatusChangeController@edit');
+	Route::put('carriers/{carrier}/status',  'StatusChangeController@update');
+
+    
     /** ------------------------------------------
  	*  Widgets
  	*  ------------------------------------------
