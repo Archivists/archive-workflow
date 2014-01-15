@@ -106,23 +106,17 @@ class CarrierController extends BaseController
         // All carrier types
         $carrierTypes = $this->carrierType->all();
 
-        // All status types
-        $statuses = $this->status->sequence()->get();
-
         // Sides
         $sides = array("1" => 1, "2" => 2);
         
         // Selected side
         $selectedSide = Input::old('sides', array());
 
-        // Selected status
-        $selectedStatus = Input::old('status', array());
-
         // Selected carrier type
         $selectedType = Input::old('carrier-type', array());
 
         // Show the page
-        return View::make('carrier/create', compact('title', 'sides', 'selectedSide', 'statuses', 'selectedStatus', 'carrierTypes', 'selectedType'));
+        return View::make('carrier/create', compact('title', 'sides', 'selectedSide', 'carrierTypes', 'selectedType'));
     }
 
     /**
@@ -136,7 +130,6 @@ class CarrierController extends BaseController
         $rules = array(
             'shelf_number'=> 'required|alpha_dash|unique:carriers,shelf_number',
             'sides' => 'required',
-            'status' => 'required',
             'carrier_type'=> 'required'
             );
         
@@ -150,7 +143,7 @@ class CarrierController extends BaseController
             $inputs = Input::except('csrf_token');
 
             $carrierType = $this->carrierType->find($inputs['carrier_type']);
-            $status = $this->status->find($inputs['status']);
+            $status = $this->status->where('order', 1)->first();
 
             if ($carrierType && $status) {
 
@@ -213,14 +206,8 @@ class CarrierController extends BaseController
         // Selected carrier type
         $selectedType = Input::old('carrier-type', array());
 
-        // All carrier types
-        $statuses = $this->status->sequence()->get();
-
-         // Selected status
-        $selectedStatus = Input::old('status', array());
-
         // Show the page
-        return View::make('carrier/edit', compact('carrier', 'title', 'sides', 'selectedSide', 'statuses', 'selectedStatus', 'carrierTypes', 'selectedType'));
+        return View::make('carrier/edit', compact('carrier', 'title', 'sides', 'selectedSide', 'carrierTypes', 'selectedType'));
     }
 
     /**
@@ -236,7 +223,6 @@ class CarrierController extends BaseController
         $rules = array(
                 'shelf_number'=> 'required|alpha_dash|unique:carriers,shelf_number,' . $carrier->id,
                 'sides' => 'required',
-                'status' => 'required',
                 'carrier_type'=> 'required'
             );
 
@@ -250,14 +236,13 @@ class CarrierController extends BaseController
             $inputs = Input::except('csrf_token');
 
             $carrierType = $this->carrierType->find($inputs['carrier_type']);
-            $status = $this->status->find($inputs['status']);
+            
 
-            if ($carrierType && $status) {
+            if ($carrierType) {
 
                 $carrier->shelf_number = $inputs['shelf_number'];
                 $carrier->sides = $inputs['sides'];
                 $carrier->notes = $inputs['notes'];
-                $carrier->status()->associate($status);
                 $carrier->carrierType()->associate($carrierType);
 
                 // Was the carrier updated?
@@ -332,7 +317,8 @@ class CarrierController extends BaseController
         $carriers = $this->carrier
                 ->workflow()
                 ->leftjoin('status', 'status.id', '=', 'carriers.status_id')
-                ->select(array('carriers.id', 'carriers.shelf_number', 'status.name as status', 'carriers.sides', 'carriers.created_at'));
+                ->select(array('carriers.id', 'carriers.shelf_number', 'status.name as status', 'carriers.sides', 'carriers.created_at'))
+                ->orderBy('carriers.created_at', 'desc');
 
         return Datatables::of($carriers)
         // ->edit_column('created_at','{{{ Carbon::now()->diffForHumans(Carbon::createFromFormat(\'Y-m-d H\', $test)) }}}')   

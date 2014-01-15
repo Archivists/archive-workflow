@@ -67,7 +67,7 @@ class StatusChangeController extends BaseController
         }
 
         // Title
-        $title = Lang::get('carrier/title.carrier_update');
+        $title = Lang::get('carrier/title.change_status');
 
         // All carrier types
         $statuses = $this->status->sequence()->get();
@@ -90,10 +90,7 @@ class StatusChangeController extends BaseController
         $carrier = $this->carrier->find($id);
 
         $rules = array(
-                'shelf_number'=> 'required|alpha_dash|unique:carriers,shelf_number,' . $carrier->id,
-                'sides' => 'required',
-                'status' => 'required',
-                'carrier_type'=> 'required'
+                'status' => 'required'                
             );
 
         // Validate the inputs
@@ -105,16 +102,10 @@ class StatusChangeController extends BaseController
             // Get the inputs, with some exceptions
             $inputs = Input::except('csrf_token');
 
-            $carrierType = $this->carrierType->find($inputs['carrier_type']);
             $status = $this->status->find($inputs['status']);
 
-            if ($carrierType && $status) {
-
-                $carrier->shelf_number = $inputs['shelf_number'];
-                $carrier->sides = $inputs['sides'];
-                $carrier->notes = $inputs['notes'];
+            if ($status) {
                 $carrier->status()->associate($status);
-                $carrier->carrierType()->associate($carrierType);
 
                 // Was the carrier updated?
                 if ($carrier->save($rules)) {

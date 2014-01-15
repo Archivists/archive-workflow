@@ -270,7 +270,7 @@ class ArtifactController extends BaseController
             }
 
 
-            $lifetime = 3600; //seconds
+            $lifetime = 0; //seconds
 
             if (file_exists($path)){
                 $filetime = filemtime($path);

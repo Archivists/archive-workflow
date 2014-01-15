@@ -22,30 +22,6 @@
 			<!-- ./ carrier shelfNumber -->
 
 
-			<!-- status -->
-			<div class="form-group {{{ $errors->has('status') ? 'has-error' : '' }}}">
-		        <label class="control-label" for="status">Status</label>
-		        <div class="controls">
-
-		            <select class="form-control" name="status" id="status">
-		            	<option value="">Select status...</option>
-		                @foreach ($statuses as $status)
-							@if ($action == 'create')
-		                		<option value="{{{ $status->id }}}" {{{ ( $status->id == $selectedStatus) ? ' selected="selected"' : '' }}}>{{{ $status->name }}}</option>
-		                	@else
-								<option value="{{{ $status->id }}}"{{{ ( $carrier->status && $status->id == $carrier->status->id ) ? ' selected="selected"' : '' }}}>{{{ $status->name }}}</option>
-							@endif
-		                @endforeach
-					</select>
-
-					<span class="help-block">
-						Select a status to assign to this carrier.
-					</span>
-		    	</div>
-			</div>
-			<!-- ./ status --> 
-
-
 			<!-- carrier sides -->
 			<div class="form-group {{{ $errors->has('sides') ? 'has-error' : '' }}}">
 				<label class="control-label" for="sides">Sides</label>
