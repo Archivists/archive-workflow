@@ -38,11 +38,11 @@
 		<thead>
 			<tr>
 				<th>{{{ Lang::get('carrier/table.archive_id') }}}</th>
-				<th>{{{ Lang::get('carrier/table.shelf_number') }}}</th>
-				<th>{{{ Lang::get('carrier/table.status') }}}</th>
-				<th>{{{ Lang::get('carrier/table.sides') }}}</th>
-				<th>{{{ Lang::get('carrier/table.created_at') }}}</th>
-				<th>{{{ Lang::get('table.actions') }}}</th>
+				<th style="width: 120px;">{{{ Lang::get('carrier/table.shelf_number') }}}</th>
+				<th style="width: 250px;">{{{ Lang::get('carrier/table.status') }}}</th>
+				<th style="width: 70px;">{{{ Lang::get('carrier/table.sides') }}}</th>
+				<th style="width: 170px;">{{{ Lang::get('carrier/table.created_at') }}}</th>
+				<th style="width: 100px;">{{{ Lang::get('table.actions') }}}</th>
 			</tr>
 		</thead>
 		<tbody>
