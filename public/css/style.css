@@ -27,6 +27,19 @@
 	border-radius: 4px;
 }
 
+.status_from {
+	background-color: #CEC;
+	height: 140px;
+
+}
+
+.status_to {
+	background-color: #ECC;
+	height: 140px;
+}
+
+
+
 .details {
 	padding: 10px;
 	border: 1px solid #ddd;

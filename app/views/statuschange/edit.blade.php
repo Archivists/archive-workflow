@@ -30,7 +30,7 @@
 			<!-- column -->
 			<div class="col-md-6">
 				<!-- current status -->
-				<div class="form-group {{{ $errors->has('status') ? 'has-error' : '' }}}">
+				<div class="form-group bf status_from {{{ $errors->has('status') ? 'has-error' : '' }}}">
 			        <label class="control-label" for="status">Current Status</label>
 			        <div class="controls">
 				    {{{ $carrier->status->name }}}<br/><br/>
@@ -46,7 +46,7 @@
 			<div class="col-md-6">
 
 				<!-- new status -->
-				<div class="form-group {{{ $errors->has('status') ? 'has-error' : '' }}}">
+				<div class="form-group bf status_to {{{ $errors->has('status') ? 'has-error' : '' }}}">
 			        <label class="control-label" for="status">New Status</label>
 			        <div class="controls">
 			            <select class="form-control" name="status" id="status">
