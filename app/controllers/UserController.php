@@ -48,7 +48,7 @@ class UserController extends BaseController
      */
     public function update($id)
     {
-          
+        $user = $this->user->find($id);
 
         if ($user->id != Auth::user()->id) {
             return Redirect::to('/')
