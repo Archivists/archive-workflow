@@ -78,6 +78,6 @@ class Carrier extends Eloquent {
      */
     public function getArchiveIdAttribute()
     {
-        return str_pad($this->id, 6, '0', STR_PAD_LEFT) . "-" . $this->shelf_number;
+        return str_pad($this->id, 6, '0', STR_PAD_LEFT) . "-" . str_pad($this->shelf_number, 6, '0', STR_PAD_LEFT);
     }
 }
