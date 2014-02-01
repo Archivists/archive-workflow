@@ -28,15 +28,26 @@ class StatusActions
     }
 
     /**
+     * Invoke the action for the corresponding status change.
+     * @param String $side* 
+     * @param Carrier $carrier
+     * 
+     */
+    public function invoke_action($action, $carrier)
+    {
+        Log::info("invoke_action called");
+    }
+
+    /**
      * Create an XML manifest for the digital audio workstation. A seperate
      * manifest, or 'job' will be created for each side of any carrier that 
      * may have more than one side.
      * @param Carrier $carrier
      * @param String $side
      */
-    public function create_daw_manifest($carrier, $side)
+    public function create_daw_manifest($carrier)
     {
-        
+        Log::info("Create daw manifest called");
     }
 
     /**
@@ -48,6 +59,7 @@ class StatusActions
      */
     public function create_sip($archive_id, $name)
     {
+        Log::info("Create sip called");
         
     }
 }

@@ -109,6 +109,10 @@ class StatusChangeController extends BaseController
 
                 // Was the carrier updated?
                 if ($carrier->save($rules)) {
+                    
+                    //Invoke the action associated with the new status.
+                    $this->actions->invoke_action($status, $carrier);
+
                     // Redirect to the carrier page
                     return Redirect::to('carriers/' . $carrier->id)->with('success', Lang::get('carrier/messages.update.success'));
                 } else {
