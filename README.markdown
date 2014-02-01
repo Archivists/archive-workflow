@@ -210,6 +210,13 @@ You can use the local PHP server to run the application locally. NOTE: On last a
 
 `php artisan serve --port=4000`
 
+##Roadmap
+
+* Documentation.
+* Clean up validators - skinny controllers, fat models.
+* Complete localization.
+* Move all file i/o tasks into a queue for async processing.
+* Include QUADRIGA XML import sample action on status change to 'digitization'.
 
 ## License
 
