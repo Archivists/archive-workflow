@@ -155,7 +155,7 @@ Should work, if not try
 
 ### Step 9: Application Specific Configuration.
 
-NOTE: /app/config/staging, app/config/production directories and /bootsrap/start.php are all excluded from the repository. You would need to create or copy these into your installation, in particular setting the hostnames for the "Detect The Application Environment" settings. e.g.:
+NOTE: /app/config/staging, app/config/production directories and /bootstrap/start.php are all excluded from the repository. You would need to create or copy these into your installation, in particular setting the hostnames for the "Detect The Application Environment" settings. e.g.:
 
     $env = $app->detectEnvironment(array(
 
