@@ -155,6 +155,16 @@ Should work, if not try
 
 ### Step 9: Application Specific Configuration.
 
+NOTE: /app/config/staging, app/config/production directories and /bootsrap/start.php are all excluded from the repository. You would need to create or copy these into your installation, in particular setting the hostnames for the "Detect The Application Environment" settings. e.g.:
+
+    $env = $app->detectEnvironment(array(
+
+        'local' => array('your-local-machine-name'),
+        'staging' => array('your-staging-machine-name'),
+        'production' => array('your-production-machine-name'),
+
+    ));
+
 Two writeable directories are required for the application. A repository path (likely a network share in production) and a DAW pickup directory.
 
 The repository path will be used to store supporting artefacts for the carrier, including box cover photos, transcripts, photos of the carrier itself, scanned documents etc.
