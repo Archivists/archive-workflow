@@ -11,7 +11,7 @@ class DawPickupServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $this->app->bind('dawpickup', function()
+        $this->app->bind('daw_pickup', function()
         {
             return new DawPickup;
         });

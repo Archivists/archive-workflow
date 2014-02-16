@@ -265,7 +265,7 @@ An example configuration setting can be found in ***app/config/workflow.php*** a
     */
 
     'repository'  => '/Users/tony/Projects/Archivists/Data/repository/',
-    'dawpickup'   => '/Users/tony/Projects/Archivists/Data/dawpickup/',
+    'daw_pickup'   => '/Users/tony/Projects/Archivists/Data/daw_pickup/',
     
     'library'     => 'gd',
     'upload_dir'  => 'uploads',

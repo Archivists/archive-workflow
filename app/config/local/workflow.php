@@ -14,7 +14,8 @@ return array(
 	*/
 
 	'repository'  => '/Users/tony/Projects/Archivists/Data/repository/',
-	'dawpickup'   => '/Users/tony/Projects/Archivists/Data/dawpickup/',
+    'daw_application'   => 'QUADRIGA',
+	'daw_pickup'   => '/Users/tony/Projects/Archivists/Data/daw_pickup/',
 	
     'library'     => 'gd',
     'upload_dir'  => 'uploads',

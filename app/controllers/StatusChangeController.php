@@ -132,7 +132,7 @@ class StatusChangeController extends BaseController
             }
         } else {
             // Form validation failed
-            return Redirect::to('carriers/' . $carrier->id)->withInput()->withErrors($validator);
+            return Redirect::to('carriers/' . $carrier->id . '/status')->withInput()->withErrors($validator);
         }
     }
 }

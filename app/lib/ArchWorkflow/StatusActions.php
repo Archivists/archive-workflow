@@ -12,10 +12,16 @@ class StatusActions
 
 
     /**
-     * Repository location
+     * DAW manifest location
      * @var String
      */
-    protected $dawpickup;
+    protected $daw_pickup;
+
+    /**
+     * DAW application
+     * @var String
+     */
+    protected $daw_application;
 
     /**
      * Inject the model.
@@ -23,8 +29,10 @@ class StatusActions
      */
     public function __construct()
     {
-        $this->dawpickup = Config::get('workflow.dawpickup');
+        $this->daw_pickup = Config::get('workflow.daw_pickup');
+        $this->daw_application = Config::get('workflow.daw_application');
         $this->repository = Config::get('workflow.repository');
+
     }
 
     /**
@@ -83,41 +91,17 @@ class StatusActions
     public function create_daw_manifest($carrier)
     {
         $result = true;
-        Log::info("Create daw manifest called");
 
-        try {
-            
-            for ($x = 1; $x <= $carrier->sides; $x++) {
-
-                $file = $this->dawpickup . $carrier->archive_id . "-" . $x . ".xml";
-
-                $version = '1.0';
-                $encoding = 'UTF-8';
-                $rootName = 'root';
-
-                $xml = new \XMLWriter(); 
-
-                $xml->openMemory();
-                $xml->setIndent(true);
-                $xml->setIndentString("  ");
-                $xml->startDocument($version, $encoding);
-                $xml->startElement($rootName);
-                    // .. add more elements here
-                    $xml->writeElement('Description', 'Some descriptive text here'); 
-                    $xml->startElement('Foo');
-                        $xml->writeAttribute('reel', "0001");
-                        $xml->text('Foo text'); 
-                    $xml->endElement();
-
-                $xml->endElement();
-                $data = $xml->outputMemory();
-                file_put_contents($file,$data);
-            }
-        }
-        catch (\Exception $e)
-        {
-            Log::error('[STATUS ACTION SERVICE] Failed to write DAW manifest for"' . $carrier->archive_id . '" [' . $e->getMessage() . ']');
-            $result = false;
+        // Dynamically load the DAW application specific module.
+        switch ($this->daw_application) {
+            case "QUADRIGA":
+                include('Cubetec.php');
+                $result = create_cubetec_manifest($carrier, $this->daw_pickup);
+                break;
+            case "OTHER DAW":
+                include('Other.php');
+                $result = create_other_manifest($carrier, $this->daw_pickup);
+                break;
         }
 
         return $result;
