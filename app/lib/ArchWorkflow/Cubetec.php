@@ -63,7 +63,7 @@ function create_cubetec_manifest($carrier, $daw_pickup_path)
     }
     catch (\Exception $e)
     {
-        Log::error('[STATUS ACTION SERVICE] Failed to write Cubtec DAW manifest for"' . $carrier->archive_id . '" [' . $e->getMessage() . ']');
+        Log::error('[STATUS ACTION SERVICE] Failed to write Cube-tec DAW manifest for"' . $carrier->archive_id . '" [' . $e->getMessage() . ']');
         $result = false;
     }
 
