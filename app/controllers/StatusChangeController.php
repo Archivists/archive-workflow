@@ -105,27 +105,34 @@ class StatusChangeController extends BaseController
             $status = $this->status->find($inputs['status']);
 
             if ($status) {
+                
+                $old_status = $carrier->status;
+
                 $carrier->status()->associate($status);
 
                 // Was the carrier updated?
                 if ($carrier->save($rules)) {
-                    
                     //Invoke the action associated with the new status.
-                    $this->actions->invoke_action($status, $carrier);
-
-                    // Redirect to the carrier page
-                    return Redirect::to('carriers/' . $carrier->id)->with('success', Lang::get('carrier/messages.update.success'));
+                    if ($this->actions->invoke_action($carrier)) {
+                        // Redirect to the carrier page
+                        return Redirect::to('carriers/' . $carrier->id)->with('success', Lang::get('carrier/messages.status.success'));    
+                    } else {
+                        //There was a problem with the action so reset the status and return a message.
+                        $carrier->status()->associate($old_status);
+                        $carrier->save();
+                        return Redirect::to('carriers/' . $carrier->id)->with('error', Lang::get('carrier/messages.status.error'));
+                    }
                 } else {
                     // Redirect to the carrier page
-                    return Redirect::to('carriers/' . $carrier->id . '/edit')->with('error', Lang::get('carrier/messages.update.error'));
+                    return Redirect::to('carriers/' . $carrier->id)->with('error', Lang::get('carrier/messages.status.error'));
                 }
             }
             else {
-                return Redirect::to('carriers/' . $carrier->id . '/edit')->with('error', Lang::get('carrier/messages.update.error'));
+                return Redirect::to('carriers/' . $carrier->id)->with('error', Lang::get('carrier/messages.status.error'));
             }
         } else {
             // Form validation failed
-            return Redirect::to('carriers/' . $carrier->id . '/edit')->withInput()->withErrors($validator);
+            return Redirect::to('carriers/' . $carrier->id)->withInput()->withErrors($validator);
         }
     }
 }
