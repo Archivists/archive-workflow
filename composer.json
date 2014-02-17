@@ -4,7 +4,7 @@
 	"keywords": ["framework", "laravel"],
 	"require": {
 		"laravel/framework": "4.1.*",
-		"laravelbook/ardent": "2.4.1",
+		"laravelbook/ardent": "dev-master",
 		"zizaco/confide": "dev-master",
 		"zizaco/entrust": "dev-master",
 		"j20/php-uuid": "dev-master",
@@ -15,31 +15,6 @@
         "phpunit/phpunit": "3.7.*",
         "mockery/mockery": "dev-master"
     },
-    "repositories": [
-        {
-                "type": "package",
-                "package": {
-                        "name": "laravelbook/ardent",
-                        "version": "2.4.1",
-                        "source": {
-                                "type": "git",
-                                "url": "https://github.com/bexarcreativeinc/ardent.git",
-                                "reference": "master"
-                        },
-                        "require": {
-                                "php": ">=5.3.0",
-                                "illuminate/support": "4.x",
-                                "illuminate/database": "4.x",
-                                "illuminate/validation": "4.x"
-                        },
-                        "autoload": {
-                                "psr-0": {
-                                        "LaravelBook\\Ardent": "src/"
-                                }
-                        }
-                }
-        }
-	],
 	"autoload": {
 		"classmap": [
 			"app/commands",
