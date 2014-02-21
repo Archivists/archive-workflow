@@ -34,15 +34,15 @@ function create_cubetec_manifest($carrier, $daw_pickup_path)
                 	$xml->writeElement('ORIGINATOR', 'PBC'); 
                 	$xml->writeElement('ORIGINATIONDATE', date("Y-m-d")); 
                 	$xml->writeElement('ORIGINATIONTIME', date("H:i:s")); 
-                	$xml->writeElement('CODINGHISTORY', $carrier->carrierType->name); 
+                	$xml->writeElement('CODINGHISTORY', 'A=ANALOGUE,M=Mono,T=PBC open reel recording'); 
                 $xml->endElement();
                 //QUALITYREPORT
                 $xml->startElement('QUALITYREPORT');
                 	//BASICDATA
                 	$xml->startElement('BASICDATA');
                 		$xml->writeElement('ARCHIVENUMBER', $carrier->archive_id . '-' . $x); 
-                		$xml->writeElement('TITLE', 'Carrier box title?'); 
-                		$xml->writeElement('OPERATOR', 'Current user'); 	
+                		$xml->writeElement('TITLE', 'PBC Analogue Digitization'); 
+                		$xml->writeElement('OPERATOR', 'QUADRIGA User'); 	
                 	$xml->endElement();
                 	//QUALITYEVENTS
                 	$xml->startElement('QUALITYEVENTS');
@@ -50,11 +50,8 @@ function create_cubetec_manifest($carrier, $daw_pickup_path)
                 	//QUALITYPARAMETER
                 	$xml->startElement('QUALITYPARAMETER');
                 		$xml->writeElement('QUALITYFACTOR', '1'); 	
-                		$xml->writeElement('INSPECTOR', 'The Inspector'); 	
                 		$xml->writeElement('FILESTATUS', 'N'); 	
                 	$xml->endElement();
-                	//OPERATORCOMMENT
-                	$xml->writeElement('OPERATORCOMMENT', 'Operator comment'); 	
                 $xml->endElement();
             $xml->endElement();
             $data = $xml->outputMemory();
