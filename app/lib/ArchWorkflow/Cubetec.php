@@ -15,7 +15,7 @@ function create_cubetec_manifest($carrier, $daw_pickup_path)
         
         for ($x = 1; $x <= $carrier->sides; $x++) {
 
-            $file = $daw_pickup_path . $carrier->archive_id . "-" . $x . ".xml";
+            $file = $daw_pickup_path . $carrier->archive_id . "-" . $x . ".imp.xml";
 
             $version = '1.0';
             $encoding = 'UTF-8';
