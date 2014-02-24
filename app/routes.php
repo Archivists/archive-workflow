@@ -83,6 +83,26 @@ Route::group(array('before' => 'auth'), function()
 
 
 	/** ------------------------------------------
+ 	*  Categories
+ 	*  ------------------------------------------
+ 	*/
+
+	// Datatables Ajax route.
+	// NOTE: We must define this route first as it is more specific than
+	// the default show resource route for /carriers/{carriers}
+	Route::get('categories/data', 'CategoryController@data');
+	
+	// Pre-baked resource controller actions for index, create, store, 
+	// show, edit, update, destroy
+	Route::resource('categories', 'CategoryController');
+	
+	// Our special delete confirmation route - uses the show/details view.
+	// NOTE: For model biding above to work - the plural paramameter {carriers} needs
+	// to be used.
+	Route::get('categories/{categoryID}/delete', 	'CategoryController@delete');
+
+
+	/** ------------------------------------------
  	*  Status
  	*  ------------------------------------------
  	*/

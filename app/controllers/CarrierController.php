@@ -25,21 +25,21 @@ class CarrierController extends BaseController
     protected $status;
 
     /**
-     * CarrierType Model
-     * @var CarrierType
+     * Category Model
+     * @var Category
      */
-    protected $carrierType;
+    protected $category;
 
     /**
      * Inject the model.
      * @param Carrier $carrier
      */
-    public function __construct(Carrier $carrier, Status $status, CarrierType $carrierType)
+    public function __construct(Carrier $carrier, Status $status, Category $category)
     {
         parent::__construct();
         $this->carrier = $carrier;
         $this->status = $status;
-        $this->carrierType = $carrierType;
+        $this->category = $category;
     }
 
     /**
@@ -104,7 +104,7 @@ class CarrierController extends BaseController
         $title = Lang::get('carrier/title.create_a_new_carrier');
 
         // All carrier types
-        $carrierTypes = $this->carrierType->all();
+        $categories = $this->category->all();
 
         // Sides
         $sides = array("1" => 1, "2" => 2);
@@ -116,7 +116,7 @@ class CarrierController extends BaseController
         $selectedType = Input::old('carrier-type', array());
 
         // Show the page
-        return View::make('carrier/create', compact('title', 'sides', 'selectedSide', 'carrierTypes', 'selectedType'));
+        return View::make('carrier/create', compact('title', 'sides', 'selectedSide', 'categories', 'selectedType'));
     }
 
     /**
@@ -130,7 +130,7 @@ class CarrierController extends BaseController
         $rules = array(
             'shelf_number'=> 'required|alpha_dash|unique:carriers,shelf_number',
             'sides' => 'required',
-            'carrier_type'=> 'required'
+            'category'=> 'required'
             );
         
         // Validate the inputs
@@ -142,16 +142,16 @@ class CarrierController extends BaseController
             // Get the inputs, with some exceptions
             $inputs = Input::except('csrf_token');
 
-            $carrierType = $this->carrierType->find($inputs['carrier_type']);
+            $category = $this->category->find($inputs['category']);
             $status = $this->status->where('order', 1)->first();
 
-            if ($carrierType && $status) {
+            if ($category && $status) {
 
                 $this->carrier->shelf_number = $inputs['shelf_number'];
                 $this->carrier->sides = $inputs['sides'];
                 $this->carrier->notes = $inputs['notes'];
                 $this->carrier->status()->associate($status);
-                $this->carrier->carrierType()->associate($carrierType);
+                $this->carrier->category()->associate($category);
 
                 if ($this->carrier->save($rules)) {
                     // Redirect to the new carrier page
@@ -201,13 +201,13 @@ class CarrierController extends BaseController
         $selectedSide = Input::old('sides', 0);
 
         // All carrier types
-        $carrierTypes = $this->carrierType->all();
+        $categories = $this->category->all();
 
         // Selected carrier type
         $selectedType = Input::old('carrier-type', array());
 
         // Show the page
-        return View::make('carrier/edit', compact('carrier', 'title', 'sides', 'selectedSide', 'carrierTypes', 'selectedType'));
+        return View::make('carrier/edit', compact('carrier', 'title', 'sides', 'selectedSide', 'categories', 'selectedType'));
     }
 
     /**
@@ -223,7 +223,7 @@ class CarrierController extends BaseController
         $rules = array(
                 'shelf_number'=> 'required|alpha_dash|unique:carriers,shelf_number,' . $carrier->id,
                 'sides' => 'required',
-                'carrier_type'=> 'required'
+                'category'=> 'required'
             );
 
         // Validate the inputs
@@ -235,15 +235,15 @@ class CarrierController extends BaseController
             // Get the inputs, with some exceptions
             $inputs = Input::except('csrf_token');
 
-            $carrierType = $this->carrierType->find($inputs['carrier_type']);
+            $category = $this->category->find($inputs['category']);
             
 
-            if ($carrierType) {
+            if ($category) {
 
                 $carrier->shelf_number = $inputs['shelf_number'];
                 $carrier->sides = $inputs['sides'];
                 $carrier->notes = $inputs['notes'];
-                $carrier->carrierType()->associate($carrierType);
+                $carrier->category()->associate($category);
 
                 // Was the carrier updated?
                 if ($carrier->save($rules)) {

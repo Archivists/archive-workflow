@@ -28,9 +28,9 @@
 		</div>
 
 		<div class="form-group">
-			<label class="control-label" for="carrier_type">Carrier Type</label>
+			<label class="control-label" for="category">Main Category</label>
 			<div class="controls">
-				@if ($carrier->carrierType) {{{ $carrier->carrierType->name }}} @endif
+				@if ($carrier->category) {{{ $carrier->category->name }}} @endif
 			</div>
 		</div>
 

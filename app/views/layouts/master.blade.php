@@ -60,6 +60,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Carrier Managment <b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><a href="{{{ URL::to('carriers') }}}">Carriers</a></li>
+              <li><a href="{{{ URL::to('categories') }}}">Categories</a></li>
               <li><a href="{{{ URL::to('carrier-types') }}}">Carrier Types</a></li>
               <li><a href="{{{ URL::to('status') }}}">Status Management</a></li>
             </ul>

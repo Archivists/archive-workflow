@@ -55,6 +55,15 @@ class Carrier extends Eloquent {
     }
 
     /**
+     * The inverse belongs to relationship with Category
+     *
+     */
+    public function category()
+    {
+        return $this->belongsTo('Category');
+    }
+
+    /**
      * The inverse belongs to relationship with Status
      *
      */

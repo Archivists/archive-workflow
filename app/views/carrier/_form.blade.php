@@ -15,7 +15,7 @@
 			<div class="form-group {{{ $errors->has('shelf_number') ? 'has-error' : '' }}}">
 				<label class="control-label" for="shelf_number">Shelf Number</label>
 				<div class="controls">
-					<input class="form-control" type="text" name="shelf_number" id="shelf_number" value="{{{ Input::old('shelf_number', isset($carrier) ? $carrier->shelf_number : null) }}}" />
+					<input class="form-control" category="text" name="shelf_number" id="shelf_number" value="{{{ Input::old('shelf_number', isset($carrier) ? $carrier->shelf_number : null) }}}" />
 					<span class="help-block">{{{ $errors->first('shelf_number', ':message') }}}</span>
 				</div>
 			</div>
@@ -50,28 +50,28 @@
 		<!-- column -->
 		<div class="col-md-6">
 
-			<!-- carrier type -->
-			<div class="form-group {{{ $errors->has('carrier_type') ? 'has-error' : '' }}}">
-		        <label class="control-label" for="carrier_type">Carrier Type</label>
+			<!-- carrier category -->
+			<div class="form-group {{{ $errors->has('category') ? 'has-error' : '' }}}">
+		        <label class="control-label" for="category">Main Category</label>
 		        <div class="controls">
 
-		            <select class="form-control" name="carrier_type" id="carrier_type">
-		            	<option value="">Select a carrier type...</option>
-		                @foreach ($carrierTypes as $type)
+		            <select class="form-control" name="category" id="category">
+		            	<option value="">Select a main category...</option>
+		                @foreach ($categories as $category)
 							@if ($action == 'create')
-		                		<option value="{{{ $type->id }}}" {{{ ( $type->id == $selectedType) ? ' selected="selected"' : '' }}}>{{{ $type->name }}}</option>
+		                		<option value="{{{ $category->id }}}" {{{ ( $category->id == $selectedType) ? ' selected="selected"' : '' }}}>{{{ $category->name }}}</option>
 		                	@else
-								<option value="{{{ $type->id }}}"{{{ ( $carrier->carrierType && $type->id == $carrier->carrierType->id ) ? ' selected="selected"' : '' }}}>{{{ $type->name }}}</option>
+								<option value="{{{ $category->id }}}"{{{ ( $carrier->category && $category->id == $carrier->category->id ) ? ' selected="selected"' : '' }}}>{{{ $category->name }}}</option>
 							@endif
 		                @endforeach
 					</select>
 
 					<span class="help-block">
-						Select a carrier type to assign to this carrier.
+						Select a carrier category to assign to this carrier.
 					</span>
 		    	</div>
 			</div>
-			<!-- ./ carrier type --> 
+			<!-- ./ carrier category --> 
 
 			<!-- carrier notes -->
 			<div class="form-group">
@@ -96,7 +96,7 @@
 				<a href="{{{ URL::to('carriers/' . $carrier->id) }}}" class="btn btn-primary">Cancel</a>
 			@endif
 
-			<button type="submit" class="btn btn-success">OK</button>
+			<button category="submit" class="btn btn-success">OK</button>
 		</div>
 	</div>
 	<!-- ./ form actions -->
