@@ -14,7 +14,7 @@ class CreateCarriertypesTable extends Migration {
 	{
 		Schema::create('carrier_types', function(Blueprint $table)
 		{
-			$table->increments('id');
+			$table->increments('id')->default(0);
 			$table->string('name');
 			$table->string('description');
 			$table->string('created_by')->default("");
