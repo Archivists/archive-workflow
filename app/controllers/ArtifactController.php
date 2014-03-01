@@ -255,7 +255,7 @@ class ArtifactController extends BaseController
                 case 'jpg':
                 case 'tiff':
                 case 'tif':
-                    $path = Config::get('workflow.repository') . $archive_id . DIRECTORY_SEPARATOR . $mode . DIRECTORY_SEPARATOR . $name;
+                    $path = Config::get('workflow.repository') . $archive_id . DIRECTORY_SEPARATOR . "artifacts" . DIRECTORY_SEPARATOR . $mode . DIRECTORY_SEPARATOR . $name;
                     break;
                 case 'pdf':
                     $path = public_path() . DIRECTORY_SEPARATOR . "img" . DIRECTORY_SEPARATOR . "icons" . DIRECTORY_SEPARATOR . "icon_pdf.png";
@@ -306,7 +306,7 @@ class ArtifactController extends BaseController
             }
 
         } else {
-           $path = Config::get('workflow.repository') . $archive_id . DIRECTORY_SEPARATOR . $name;
+           $path = Config::get('workflow.repository') . $archive_id . DIRECTORY_SEPARATOR . "artifacts" . DIRECTORY_SEPARATOR . $name;
            return Response::download($path); 
         }
     }

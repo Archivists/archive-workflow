@@ -39,9 +39,9 @@ class FileRepository
         // Create directory if missing
         try {
 
-            $directory = $this->repository . $archive_id;
+            $directory = $this->repository . $archive_id . DIRECTORY_SEPARATOR . "artifacts";
             if (!file_exists($directory) && !is_dir($directory)) {
-                mkdir($directory);         
+                mkdir($directory, 0777, true);         
             } 
             
             $destination =  $directory . DIRECTORY_SEPARATOR . $name;
@@ -76,7 +76,7 @@ class FileRepository
         // Create directory if missing
         try {
 
-            $dir = $this->repository . $archive_id;
+            $dir = $this->repository . $archive_id . DIRECTORY_SEPARATOR . "artifacts";
             $path = $dir . DIRECTORY_SEPARATOR . $name;
 
             if (file_exists($path)) {
@@ -106,6 +106,11 @@ class FileRepository
             //If there are no artifacts left for this archive id - then remove the directory.
             if ($this->is_dir_empty($dir)){
                 rmdir($dir);
+            }
+
+            //Yuk - but since we're not placing artifacts in a subdirectory....
+            if ($this->is_dir_empty($this->repository . $archive_id)){
+                rmdir($this->repository . $archive_id);
             }
 
             return true;
