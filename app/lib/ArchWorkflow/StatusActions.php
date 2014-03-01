@@ -92,6 +92,9 @@ class StatusActions
     {
         $result = true;
 
+        // A bit cludgy - but needed for correct import of SIP into the catalogue system
+        $this->write_category($carrier);
+
         // Dynamically load the DAW application specific module.
         switch ($this->daw_application) {
             case "QUADRIGA":
@@ -131,5 +134,31 @@ class StatusActions
     public function create_sip($carrier)
     {
         Log::info("Create sip called");
+    }
+
+    /**
+     * Write our main category token for the SIP import.
+     * @param Carrier 
+     */
+    public function write_category($carrier)
+    {
+
+        try {
+
+            $directory = $this->repository . $carrier->archive_id;
+            if (!file_exists($directory) && !is_dir($directory)) {
+                mkdir($directory);         
+            } 
+            
+            $filename = $this->repository . $carrier->archive_id . DIRECTORY_SEPARATOR . "category.txt";
+            file_put_contents($filename, $carrier->category->name);
+
+        }
+        catch (\Exception $e)
+        {
+            Log::error('[STATUS ACTION SERVICE] Failed to write category token for "' . $carrier->archive_id . '" [' . $e->getMessage() . ']');
+            $result = false;
+        }
+
     }
 }
