@@ -18,7 +18,7 @@ class CreateCarriersTable extends Migration {
 			$table->string('shelf_number');
 			$table->integer('sides')->default(1);
 			$table->integer('status_id');
-			$table->integer('carrier_type_id');
+			$table->integer('carrier_type_id')->default(0);
 			$table->string('created_by')->default("");
 		    $table->string('updated_by')->default("");
 			$table->timestamps();
