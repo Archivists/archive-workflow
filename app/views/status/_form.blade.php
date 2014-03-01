@@ -1,8 +1,8 @@
 {{-- Create Role Form --}}
 @if (isset($status))
-{{ Form::open(array('url' => URL::to('status') . '/' . $status->id, 'method' => 'put', 'class' => 'bf')) }}
+{{ Form::open(array('url' => URL::to('admin/status') . '/' . $status->id, 'method' => 'put', 'class' => 'bf')) }}
 @else
-{{ Form::open(array('url' => URL::to('status'), 'method' => 'post', 'class' => 'bf')) }}
+{{ Form::open(array('url' => URL::to('admin/status'), 'method' => 'post', 'class' => 'bf')) }}
 @endif
 
 	<!-- status name -->
@@ -38,7 +38,7 @@
 	<!-- Form Actions -->
 	<div class="form-group">
 		<div class="controls">
-			<a href="{{{ URL::to('status') }}}" class="btn btn-primary">Cancel</a>
+			<a href="{{{ URL::to('admin/status') }}}" class="btn btn-primary">Cancel</a>
 			<button type="submit" class="btn btn-success">OK</button>
 		</div>
 	</div>

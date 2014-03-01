@@ -10,7 +10,7 @@
 	<div class="page-header clearfix">
 		<h3 class="pull-left">{{{ $title }}}</h3>
 		<div class="pull-right">
-			<a href="{{{ URL::to('status/create') }}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span>{{{ Lang::get('status/title.create_a_new_status') }}}</a>
+			<a href="{{{ URL::to('admin/status/create') }}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span>{{{ Lang::get('status/title.create_a_new_status') }}}</a>
 		</div>
 	</div>
 
@@ -47,7 +47,7 @@
 				},
 				"bProcessing": true,
 		        "bServerSide": true,
-		        "sAjaxSource": "{{ URL::to('status/data') }}"
+		        "sAjaxSource": "{{ URL::to('admin/status/data') }}"
 			});
 
 			$("#status_filter input").addClass("form-control inline-control input-sm");

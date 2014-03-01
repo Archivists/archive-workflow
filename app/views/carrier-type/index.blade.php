@@ -10,7 +10,7 @@
 	<div class="page-header clearfix">
 		<h3 class="pull-left">{{{ $title }}}</h3>
 		<div class="pull-right">
-			<a href="{{{ URL::to('carrier-types/create') }}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span>{{{ Lang::get('carrier-type/title.create_a_new_carrier-type') }}}</a>
+			<a href="{{{ URL::to('admin/carrier-types/create') }}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span>{{{ Lang::get('carrier-type/title.create_a_new_carrier-type') }}}</a>
 		</div>
 	</div>
 
@@ -46,7 +46,7 @@
 				},
 				"bProcessing": true,
 		        "bServerSide": true,
-		        "sAjaxSource": "{{ URL::to('carrier-types/data') }}"
+		        "sAjaxSource": "{{ URL::to('admin/carrier-types/data') }}"
 			});
 
 			$("#carrier-types_filter input").addClass("form-control inline-control input-sm");

@@ -1,8 +1,8 @@
 {{-- Create Role Form --}}
 @if (isset($category))
-{{ Form::open(array('url' => URL::to('categories') . '/' . $category->id, 'method' => 'put', 'class' => 'bf')) }}
+{{ Form::open(array('url' => URL::to('admin/categories') . '/' . $category->id, 'method' => 'put', 'class' => 'bf')) }}
 @else
-{{ Form::open(array('url' => URL::to('categories'), 'method' => 'post', 'class' => 'bf')) }}
+{{ Form::open(array('url' => URL::to('admin/categories'), 'method' => 'post', 'class' => 'bf')) }}
 @endif
 
 	<!-- category name -->
@@ -28,7 +28,7 @@
 	<!-- Form Actions -->
 	<div class="form-group">
 		<div class="controls">
-			<a href="{{{ URL::to('categories') }}}" class="btn btn-primary">Cancel</a>
+			<a href="{{{ URL::to('admin/categories') }}}" class="btn btn-primary">Cancel</a>
 			<button type="submit" class="btn btn-success">OK</button>
 		</div>
 	</div>

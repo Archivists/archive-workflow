@@ -30,10 +30,10 @@
 <div class="form-group">
 	<div class="controls">
 		@if ($action == 'show')
-			<a href="{{{ URL::to('status') }}}" class="btn btn-primary">Close</a>
-			<a href="{{{ URL::to('status/' . $status->id . '/edit') }}}" class="btn btn-primary">Edit Status</a>
+			<a href="{{{ URL::to('admin/status') }}}" class="btn btn-primary">Close</a>
+			<a href="{{{ URL::to('admin/status/' . $status->id . '/edit') }}}" class="btn btn-primary">Edit Status</a>
 		@else
-			<a href="{{{ URL::to('status') }}}" class="btn btn-primary">Cancel</a>
+			<a href="{{{ URL::to('admin/status') }}}" class="btn btn-primary">Cancel</a>
 			<button type="submit" class="btn btn-danger">Delete</button>
 		@endif
 	</div>

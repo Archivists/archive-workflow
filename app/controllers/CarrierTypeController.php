@@ -63,7 +63,7 @@ class CarrierTypeController extends BaseController
 
         } else {
             // Redirect to the carrierType management page
-            return Redirect::to('carrier-types')->with('error', Lang::get('carrier-type/messages.does_not_exist'));
+            return Redirect::to('admin/carrier-types')->with('error', Lang::get('carrier-type/messages.does_not_exist'));
         }
     }
 
@@ -107,16 +107,16 @@ class CarrierTypeController extends BaseController
             
             if ($this->carrierType->save($rules)) {
                 // Redirect to the new carrierType page
-                return Redirect::to('carrier-types')->with('success', Lang::get('carrier-type/messages.create.success'));
+                return Redirect::to('admin/carrier-types')->with('success', Lang::get('carrier-type/messages.create.success'));
 
             } else {
                 // Redirect to the carrierType create page
                 //var_dump($this->carrierType);
-                return Redirect::to('carrier-types/create')->with('error', Lang::get('carrier-type/messages.create.error'));
+                return Redirect::to('admin/carrier-types/create')->with('error', Lang::get('carrier-type/messages.create.error'));
             }
         } else {
             // Form validation failed
-            return Redirect::to('carrier-types/create')->withInput()->withErrors($validator);
+            return Redirect::to('admin/carrier-types/create')->withInput()->withErrors($validator);
         }
     }
 
@@ -134,7 +134,7 @@ class CarrierTypeController extends BaseController
 
         } else {
             // Redirect to the carrierType management page
-            return Redirect::to('carrier-types')->with('error', Lang::get('carrier-type/messages.does_not_exist'));
+            return Redirect::to('admin/carrier-types')->with('error', Lang::get('carrier-type/messages.does_not_exist'));
         }
 
         // Title
@@ -170,14 +170,14 @@ class CarrierTypeController extends BaseController
             // Was the carrierType updated?
             if ($carrierType->save($rules)) {
                 // Redirect to the carrierType page
-                return Redirect::to('carrier-types/' . $carrierType->id . '/edit')->with('success', Lang::get('carrier-type/messages.update.success'));
+                return Redirect::to('admin/carrier-types/' . $carrierType->id . '/edit')->with('success', Lang::get('carrier-type/messages.update.success'));
             } else {
                 // Redirect to the carrierType page
-                return Redirect::to('carrier-types/' . $carrierType->id . '/edit')->with('error', Lang::get('carrier-type/messages.update.error'));
+                return Redirect::to('admin/carrier-types/' . $carrierType->id . '/edit')->with('error', Lang::get('carrier-type/messages.update.error'));
             }
         } else {
             // Form validation failed
-            return Redirect::to('carrier-types/' . $carrierType->id . '/edit')->withInput()->withErrors($validator);
+            return Redirect::to('admin/carrier-types/' . $carrierType->id . '/edit')->withInput()->withErrors($validator);
         }
     }
 
@@ -198,7 +198,7 @@ class CarrierTypeController extends BaseController
 
         } else {
             // Redirect to the carrierType management page
-            return Redirect::to('carrier-types')->with('error', Lang::get('carrier-type/messages.does_not_exist'));
+            return Redirect::to('admin/carrier-types')->with('error', Lang::get('carrier-type/messages.does_not_exist'));
         }
 
         // Show the record
@@ -217,11 +217,11 @@ class CarrierTypeController extends BaseController
         // Was the carrierType deleted?
         if ($carrierType->delete()) {
             // Redirect to the carrierType management page
-            return Redirect::to('carrier-types')->with('success', Lang::get('carrier-type/messages.delete.success'));
+            return Redirect::to('admin/carrier-types')->with('success', Lang::get('carrier-type/messages.delete.success'));
         }
 
         // There was a problem deleting the carrierType
-        return Redirect::to('carrier-types')->with('error', Lang::get('carrier-type/messages.delete.error'));
+        return Redirect::to('admin/carrier-types')->with('error', Lang::get('carrier-type/messages.delete.error'));
     }
 
     /**
@@ -242,9 +242,9 @@ class CarrierTypeController extends BaseController
                     Action <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{{ URL::to(\'carrier-types/\' . $id ) }}}">{{{ Lang::get(\'button.show\') }}}</a></li>
-                    <li><a href="{{{ URL::to(\'carrier-types/\' . $id . \'/edit\' ) }}}">{{{ Lang::get(\'button.edit\') }}}</a></li>
-                    <li><a href="{{{ URL::to(\'carrier-types/\' . $id . \'/delete\' ) }}}">{{{ Lang::get(\'button.delete\') }}}</a></li>
+                    <li><a href="{{{ URL::to(\'admin/carrier-types/\' . $id ) }}}">{{{ Lang::get(\'button.show\') }}}</a></li>
+                    <li><a href="{{{ URL::to(\'admin/carrier-types/\' . $id . \'/edit\' ) }}}">{{{ Lang::get(\'button.edit\') }}}</a></li>
+                    <li><a href="{{{ URL::to(\'admin/carrier-types/\' . $id . \'/delete\' ) }}}">{{{ Lang::get(\'button.delete\') }}}</a></li>
                   </ul>
                 </div>')
 

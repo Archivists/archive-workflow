@@ -63,7 +63,7 @@ class StatusController extends BaseController
 
         } else {
             // Redirect to the status management page
-            return Redirect::to('status')->with('error', Lang::get('status/messages.does_not_exist'));
+            return Redirect::to('admin/status')->with('error', Lang::get('status/messages.does_not_exist'));
         }
     }
 
@@ -109,16 +109,16 @@ class StatusController extends BaseController
             
             if ($this->status->save($rules)) {
                 // Redirect to the new status page
-                return Redirect::to('status')->with('success', Lang::get('status/messages.create.success'));
+                return Redirect::to('admin/status')->with('success', Lang::get('status/messages.create.success'));
 
             } else {
                 // Redirect to the status create page
                 //var_dump($this->status);
-                return Redirect::to('status/create')->with('error', Lang::get('status/messages.create.error'));
+                return Redirect::to('admin/status/create')->with('error', Lang::get('status/messages.create.error'));
             }
         } else {
             // Form validation failed
-            return Redirect::to('status/create')->withInput()->withErrors($validator);
+            return Redirect::to('admin/status/create')->withInput()->withErrors($validator);
         }
     }
 
@@ -136,7 +136,7 @@ class StatusController extends BaseController
 
         } else {
             // Redirect to the status management page
-            return Redirect::to('status')->with('error', Lang::get('status/messages.does_not_exist'));
+            return Redirect::to('admin/status')->with('error', Lang::get('status/messages.does_not_exist'));
         }
 
         // Title
@@ -174,14 +174,14 @@ class StatusController extends BaseController
             // Was the status updated?
             if ($status->save($rules)) {
                 // Redirect to the status page
-                return Redirect::to('status/' . $status->id . '/edit')->with('success', Lang::get('status/messages.update.success'));
+                return Redirect::to('admin/status/' . $status->id . '/edit')->with('success', Lang::get('status/messages.update.success'));
             } else {
                 // Redirect to the status page
-                return Redirect::to('status/' . $status->id . '/edit')->with('error', Lang::get('status/messages.update.error'));
+                return Redirect::to('admin/status/' . $status->id . '/edit')->with('error', Lang::get('status/messages.update.error'));
             }
         } else {
             // Form validation failed
-            return Redirect::to('status/' . $status->id . '/edit')->withInput()->withErrors($validator);
+            return Redirect::to('admin/status/' . $status->id . '/edit')->withInput()->withErrors($validator);
         }
     }
 
@@ -202,7 +202,7 @@ class StatusController extends BaseController
 
         } else {
             // Redirect to the status management page
-            return Redirect::to('status')->with('error', Lang::get('status/messages.does_not_exist'));
+            return Redirect::to('admin/status')->with('error', Lang::get('status/messages.does_not_exist'));
         }
 
         // Show the record
@@ -221,11 +221,11 @@ class StatusController extends BaseController
         // Was the status deleted?
         if ($status->delete()) {
             // Redirect to the status management page
-            return Redirect::to('status')->with('success', Lang::get('status/messages.delete.success'));
+            return Redirect::to('admin/status')->with('success', Lang::get('status/messages.delete.success'));
         }
 
         // There was a problem deleting the status
-        return Redirect::to('status')->with('error', Lang::get('status/messages.delete.error'));
+        return Redirect::to('admin/status')->with('error', Lang::get('status/messages.delete.error'));
     }
 
     /**
@@ -248,9 +248,9 @@ class StatusController extends BaseController
                     Action <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{{ URL::to(\'status/\' . $id ) }}}">{{{ Lang::get(\'button.show\') }}}</a></li>
-                    <li><a href="{{{ URL::to(\'status/\' . $id . \'/edit\' ) }}}">{{{ Lang::get(\'button.edit\') }}}</a></li>
-                    <li><a href="{{{ URL::to(\'status/\' . $id . \'/delete\' ) }}}">{{{ Lang::get(\'button.delete\') }}}</a></li>
+                    <li><a href="{{{ URL::to(\'admin/status/\' . $id ) }}}">{{{ Lang::get(\'button.show\') }}}</a></li>
+                    <li><a href="{{{ URL::to(\'admin/status/\' . $id . \'/edit\' ) }}}">{{{ Lang::get(\'button.edit\') }}}</a></li>
+                    <li><a href="{{{ URL::to(\'admin/status/\' . $id . \'/delete\' ) }}}">{{{ Lang::get(\'button.delete\') }}}</a></li>
                   </ul>
                 </div>')
 

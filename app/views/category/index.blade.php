@@ -10,7 +10,7 @@
 	<div class="page-header clearfix">
 		<h3 class="pull-left">{{{ $title }}}</h3>
 		<div class="pull-right">
-			<a href="{{{ URL::to('categories/create') }}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span>{{{ Lang::get('category/title.create_a_new_category') }}}</a>
+			<a href="{{{ URL::to('admin/categories/create') }}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-plus"></span>{{{ Lang::get('category/title.create_a_new_category') }}}</a>
 		</div>
 	</div>
 
@@ -46,7 +46,7 @@
 				},
 				"bProcessing": true,
 		        "bServerSide": true,
-		        "sAjaxSource": "{{ URL::to('categories/data') }}"
+		        "sAjaxSource": "{{ URL::to('admin/categories/data') }}"
 			});
 
 			$("#categories_filter input").addClass("form-control inline-control input-sm");

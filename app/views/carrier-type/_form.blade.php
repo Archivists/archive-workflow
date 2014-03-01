@@ -1,8 +1,8 @@
 {{-- Create Role Form --}}
 @if (isset($carrierType))
-{{ Form::open(array('url' => URL::to('carrier-types') . '/' . $carrierType->id, 'method' => 'put', 'class' => 'bf')) }}
+{{ Form::open(array('url' => URL::to('admin/carrier-types') . '/' . $carrierType->id, 'method' => 'put', 'class' => 'bf')) }}
 @else
-{{ Form::open(array('url' => URL::to('carrier-types'), 'method' => 'post', 'class' => 'bf')) }}
+{{ Form::open(array('url' => URL::to('admin/carrier-types'), 'method' => 'post', 'class' => 'bf')) }}
 @endif
 
 	<!-- carrierType name -->
@@ -28,7 +28,7 @@
 	<!-- Form Actions -->
 	<div class="form-group">
 		<div class="controls">
-			<a href="{{{ URL::to('carrier-types') }}}" class="btn btn-primary">Cancel</a>
+			<a href="{{{ URL::to('admin/carrier-types') }}}" class="btn btn-primary">Cancel</a>
 			<button type="submit" class="btn btn-success">OK</button>
 		</div>
 	</div>

@@ -12,7 +12,7 @@
         <div class="page-header clearfix">
             <h3 class="pull-left">{{{ $title }}}</h3>
             <div class="pull-right">
-                <a href="{{{ URL::to('categories') }}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-arrow-left"></span>Back</a>
+                <a href="{{{ URL::to('admin/categories') }}}" class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-arrow-left"></span>Back</a>
             </div>
         </div>
         
@@ -21,7 +21,7 @@
         <!-- ./ notifications -->
 
         {{-- Delete Role Form --}}
-        {{ Form::open(array('url' => URL::to('categories') . '/' . $category->id, 'method' => 'delete', 'class' => 'bf')) }}
+        {{ Form::open(array('url' => URL::to('admin/categories') . '/' . $category->id, 'method' => 'delete', 'class' => 'bf')) }}
         
            @include('category/_details', compact('category'))
 

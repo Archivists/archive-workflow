@@ -63,7 +63,7 @@ class CategoryController extends BaseController
 
         } else {
             // Redirect to the category management page
-            return Redirect::to('categories')->with('error', Lang::get('category/messages.does_not_exist'));
+            return Redirect::to('admin/categories')->with('error', Lang::get('category/messages.does_not_exist'));
         }
     }
 
@@ -107,16 +107,16 @@ class CategoryController extends BaseController
             
             if ($this->category->save($rules)) {
                 // Redirect to the new category page
-                return Redirect::to('categories')->with('success', Lang::get('category/messages.create.success'));
+                return Redirect::to('admin/categories')->with('success', Lang::get('category/messages.create.success'));
 
             } else {
                 // Redirect to the category create page
                 //var_dump($this->category);
-                return Redirect::to('categories/create')->with('error', Lang::get('category/messages.create.error'));
+                return Redirect::to('admin/categories/create')->with('error', Lang::get('category/messages.create.error'));
             }
         } else {
             // Form validation failed
-            return Redirect::to('categories/create')->withInput()->withErrors($validator);
+            return Redirect::to('admin/categories/create')->withInput()->withErrors($validator);
         }
     }
 
@@ -134,7 +134,7 @@ class CategoryController extends BaseController
 
         } else {
             // Redirect to the category management page
-            return Redirect::to('categories')->with('error', Lang::get('category/messages.does_not_exist'));
+            return Redirect::to('admin/categories')->with('error', Lang::get('category/messages.does_not_exist'));
         }
 
         // Title
@@ -170,14 +170,14 @@ class CategoryController extends BaseController
             // Was the category updated?
             if ($category->save($rules)) {
                 // Redirect to the category page
-                return Redirect::to('categories/' . $category->id . '/edit')->with('success', Lang::get('category/messages.update.success'));
+                return Redirect::to('admin/categories/' . $category->id . '/edit')->with('success', Lang::get('category/messages.update.success'));
             } else {
                 // Redirect to the category page
-                return Redirect::to('categories/' . $category->id . '/edit')->with('error', Lang::get('category/messages.update.error'));
+                return Redirect::to('admin/categories/' . $category->id . '/edit')->with('error', Lang::get('category/messages.update.error'));
             }
         } else {
             // Form validation failed
-            return Redirect::to('categories/' . $category->id . '/edit')->withInput()->withErrors($validator);
+            return Redirect::to('admin/categories/' . $category->id . '/edit')->withInput()->withErrors($validator);
         }
     }
 
@@ -198,7 +198,7 @@ class CategoryController extends BaseController
 
         } else {
             // Redirect to the category management page
-            return Redirect::to('categories')->with('error', Lang::get('category/messages.does_not_exist'));
+            return Redirect::to('admin/categories')->with('error', Lang::get('category/messages.does_not_exist'));
         }
 
         // Show the record
@@ -217,15 +217,15 @@ class CategoryController extends BaseController
         // Was the category deleted?
         if ($category->delete()) {
             // Redirect to the category management page
-            return Redirect::to('categories')->with('success', Lang::get('category/messages.delete.success'));
+            return Redirect::to('admin/categories')->with('success', Lang::get('category/messages.delete.success'));
         }
 
         // There was a problem deleting the category
-        return Redirect::to('categories')->with('error', Lang::get('category/messages.delete.error'));
+        return Redirect::to('admin/categories')->with('error', Lang::get('category/messages.delete.error'));
     }
 
     /**
-     * Show a list of all the categories formatted for Datatables.
+     * Show a list of all the admin/categories formatted for Datatables.
      *
      * @return Datatables JSON
      */
@@ -242,9 +242,9 @@ class CategoryController extends BaseController
                     Action <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{{ URL::to(\'categories/\' . $id ) }}}">{{{ Lang::get(\'button.show\') }}}</a></li>
-                    <li><a href="{{{ URL::to(\'categories/\' . $id . \'/edit\' ) }}}">{{{ Lang::get(\'button.edit\') }}}</a></li>
-                    <li><a href="{{{ URL::to(\'categories/\' . $id . \'/delete\' ) }}}">{{{ Lang::get(\'button.delete\') }}}</a></li>
+                    <li><a href="{{{ URL::to(\'admin/categories/\' . $id ) }}}">{{{ Lang::get(\'button.show\') }}}</a></li>
+                    <li><a href="{{{ URL::to(\'admin/categories/\' . $id . \'/edit\' ) }}}">{{{ Lang::get(\'button.edit\') }}}</a></li>
+                    <li><a href="{{{ URL::to(\'admin/categories/\' . $id . \'/delete\' ) }}}">{{{ Lang::get(\'button.delete\') }}}</a></li>
                   </ul>
                 </div>')
 

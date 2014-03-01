@@ -56,15 +56,17 @@
       </div>
         <ul class="nav navbar-nav navbar-left">
           <li class="{{ (Request::is('/') ? ' active' : '') }}"><a href="{{{ URL::to('carriers') }}}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Carrier Managment <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><a href="{{{ URL::to('carriers') }}}">Carriers</a></li>
-              <li><a href="{{{ URL::to('categories') }}}">Categories</a></li>
-              <li><a href="{{{ URL::to('carrier-types') }}}">Carrier Types</a></li>
-              <li><a href="{{{ URL::to('status') }}}">Status Management</a></li>
-            </ul>
-          </li>
+          
+          @if (Auth::check() && Auth::user()->hasRole('admin'))
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Carrier Managment <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="{{{ URL::to('admin/categories') }}}">Categories</a></li>
+                <li><a href="{{{ URL::to('admin/carrier-types') }}}">Carrier Types</a></li>
+                <li><a href="{{{ URL::to('admin/status') }}}">Status Management</a></li>
+              </ul>
+            </li>
+          @endif
         </ul>
 
         <ul class="nav navbar-nav navbar-right">

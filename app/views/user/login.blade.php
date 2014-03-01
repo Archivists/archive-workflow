@@ -30,9 +30,6 @@
 
                 <label class="control-label" for="password">
                     {{ Lang::get('confide::confide.password') }}
-                    <small>
-                        <a href="forgot">{{ Lang::get('confide::confide.login.forgot_password') }}</a>
-                    </small>
                 </label>
 
                 
