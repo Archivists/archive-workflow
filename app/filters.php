@@ -80,6 +80,8 @@ Entrust::routeNeedsPermission( 'admin/user*', 'manage_users', Redirect::to('/') 
 //Entrust::routeNeedsPermission( 'admin/role*', 'manage_roles', Redirect::to('/') );
 
 
+
+
 /*
 |--------------------------------------------------------------------------
 | CSRF Protection Filter

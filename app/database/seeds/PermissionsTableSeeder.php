@@ -15,24 +15,26 @@ class PermissionsTableSeeder extends Seeder {
 
         //Permission 2
         $manageWidgets = new Permission;
-        $manageWidgets->name = 'manage_widgets';
-        $manageWidgets->display_name = 'Manage Widgets';
+        $manageWidgets->name = 'manage_carriers';
+        $manageWidgets->display_name = 'Manage Carriers';
         $manageWidgets->save();
 
         DB::table('permission_role')->delete();
 
-        //Role ID 1 and 2 are admin and user respectively.
+        $admin = Role::where('name','=','admin')->first();
+        $user = Role::where('name','=','user')->first();
+
         $permissions = array(
             array(
-                'role_id'      => 1,
+                'role_id'      => $admin->id,
                 'permission_id' => 1
             ),
             array(
-                'role_id'      => 1,
+                'role_id'      => $admin->id,
                 'permission_id' => 2
             ),            
             array(
-                'role_id'      => 2,
+                'role_id'      => $user->id,
                 'permission_id' => 2
             ),
         );
