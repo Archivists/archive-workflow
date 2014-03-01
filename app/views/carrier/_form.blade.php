@@ -13,7 +13,7 @@
 		
 			<!-- carrier shelfNumber -->
 			<div class="form-group {{{ $errors->has('shelf_number') ? 'has-error' : '' }}}">
-				<label class="control-label" for="shelf_number">Shelf Number</label>
+				<label class="control-label" for="shelf_number">Reel Number</label>
 				<div class="controls">
 					<input class="form-control" category="text" name="shelf_number" id="shelf_number" value="{{{ Input::old('shelf_number', isset($carrier) ? $carrier->shelf_number : null) }}}" />
 					<span class="help-block">{{{ $errors->first('shelf_number', ':message') }}}</span>

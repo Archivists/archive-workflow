@@ -11,7 +11,7 @@
 		</div>
 
 		<div class="form-group">
-			<label class="control-label" for="shelf_number">Shelf Number</label>
+			<label class="control-label" for="shelf_number">Reel Number</label>
 			<div class="controls">
 				@if (isset($carrier)) {{{ $carrier->shelf_number }}} @endif
 			</div>

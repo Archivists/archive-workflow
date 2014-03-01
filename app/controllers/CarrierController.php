@@ -271,6 +271,7 @@ class CarrierController extends BaseController
      */
     public function delete($id)
     {
+        
         $carrier = $this->carrier->find($id);
 
         // Title
@@ -295,6 +296,10 @@ class CarrierController extends BaseController
     public function destroy($id)
     {
         $carrier = $this->carrier->find($id);
+
+        if ($carrier->artifacts->count() > 0) {
+            return Redirect::to('carriers')->with('error', "You must delete all artifacts for this carrier first.");
+        }
 
         // Was the carrier deleted?
         if ($carrier->delete()) {
