@@ -272,20 +272,25 @@ class CarrierController extends BaseController
     public function delete($id)
     {
         
-        $carrier = $this->carrier->find($id);
+        if (Auth::user()->hasRole('admin')) {
+        
+            $carrier = $this->carrier->find($id);
 
-        // Title
-        $title = Lang::get('carrier/title.carrier_delete');
+            // Title
+            $title = Lang::get('carrier/title.carrier_delete');
 
-        if ($carrier->id) {
+            if ($carrier->id) {
 
+            } else {
+                // Redirect to the carrier management page
+                return Redirect::to('carriers')->with('error', Lang::get('carrier/messages.does_not_exist'));
+            }
+
+            // Show the record
+            return View::make('carrier/delete', compact('carrier', 'title'));
         } else {
-            // Redirect to the carrier management page
-            return Redirect::to('carriers')->with('error', Lang::get('carrier/messages.does_not_exist'));
+            return Redirect::to('carriers')->with('error', "You do not have permission to delete this carrier.");
         }
-
-        // Show the record
-        return View::make('carrier/delete', compact('carrier', 'title'));
     }
 
     /**
@@ -295,20 +300,26 @@ class CarrierController extends BaseController
      */
     public function destroy($id)
     {
-        $carrier = $this->carrier->find($id);
+        if (Auth::user()->hasRole('admin')) {
+        
+            $carrier = $this->carrier->find($id);
 
-        if ($carrier->artifacts->count() > 0) {
-            return Redirect::to('carriers')->with('error', "You must delete all artifacts for this carrier first.");
+            if ($carrier->artifacts->count() > 0) {
+                return Redirect::to('carriers')->with('error', "You must delete all artifacts for this carrier first.");
+            }
+
+            // Was the carrier deleted?
+            if ($carrier->delete()) {
+                // Redirect to the carrier management page
+                return Redirect::to('carriers')->with('success', Lang::get('carrier/messages.delete.success'));
+            }
+
+            // There was a problem deleting the carrier
+            return Redirect::to('carriers')->with('error', Lang::get('carrier/messages.delete.error'));
+        } else {
+        
+            return Redirect::to('carriers')->with('error', "You do not have permission to delete this carrier.");
         }
-
-        // Was the carrier deleted?
-        if ($carrier->delete()) {
-            // Redirect to the carrier management page
-            return Redirect::to('carriers')->with('success', Lang::get('carrier/messages.delete.success'));
-        }
-
-        // There was a problem deleting the carrier
-        return Redirect::to('carriers')->with('error', Lang::get('carrier/messages.delete.error'));
     }
 
     /**
