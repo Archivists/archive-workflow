@@ -30,7 +30,7 @@ function create_cubetec_manifest($carrier, $daw_pickup_path)
             $xml->startElement($rootName);
                 //BEXDATA
                 $xml->startElement('BEXTDATA');
-                	$xml->writeElement('DESCRIPTION', 'Import to QUADRIGA from PBC Workflow.'); 
+                	$xml->writeElement('DESCRIPTION', 'Import to QUADRIGA from PBC Workflow'); 
                 	$xml->writeElement('ORIGINATOR', 'PBC'); 
                 	$xml->writeElement('ORIGINATIONDATE', date("Y-m-d")); 
                 	$xml->writeElement('ORIGINATIONTIME', date("H:i:s")); 
