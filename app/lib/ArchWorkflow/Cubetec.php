@@ -51,6 +51,7 @@ function create_cubetec_manifest($carrier, $daw_pickup_path)
                 		$xml->writeElement('QUALITYFACTOR', '1'); 	
                 		$xml->writeElement('FILESTATUS', 'N'); 	
                 	$xml->endElement();
+                    $xml->writeElement('OPERATORCOMMENT', $carrier->notes); 
                 $xml->endElement();
             $xml->endElement();
             $data = $xml->outputMemory();
