@@ -13,7 +13,8 @@ return array(
 	|
 	*/
 
-	'repository'  => '/Users/tony/Projects/Archivists/Data/repository/',
+	'collection_prefix'  => 'PBC-ISB',
+    'repository'  => '/Users/tony/Projects/Archivists/Data/repository/',
     'daw_application'   => 'QUADRIGA',
 	'daw_pickup'   => '/Users/tony/Projects/Archivists/Data/daw_pickup/',
 	

@@ -2,12 +2,36 @@
 
 class Carrier extends Eloquent {
 
-	/**
+	
+
+    /**
+     * Collection prefix - retrieved from workflow.php config section.
+     *
+     * @var string
+     */
+    protected $prefix;
+
+    /**
 	 * The database table used by the model.
 	 *
 	 * @var string
 	 */
 	protected $table = 'carriers';
+
+
+    /**
+     * Constructor
+     *
+     * @attributes Array
+     */
+    public function __construct(array $attributes = array())
+    {
+        // $this->setRawAttributes(array(
+        //   'end_date' => Carbon::now()->addDays(10)
+        // ), true);
+        $this->prefix = Config::get('workflow.collection_prefix', 'ABC'); 
+        parent::__construct($attributes);
+    }
 
 
     /**
@@ -87,6 +111,6 @@ class Carrier extends Eloquent {
      */
     public function getArchiveIdAttribute()
     {
-        return str_pad($this->id, 6, '0', STR_PAD_LEFT) . "-" . str_pad($this->shelf_number, 6, '0', STR_PAD_LEFT);
+        return str_pad($this->prefix, 6, '0', STR_PAD_LEFT) . "-" . str_pad($this->shelf_number, 6, '0', STR_PAD_LEFT);
     }
 }
