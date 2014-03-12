@@ -24,7 +24,7 @@
 
 			<!-- carrier sides -->
 			<div class="form-group {{{ $errors->has('sides') ? 'has-error' : '' }}}">
-				<label class="control-label" for="sides">Sides</label>
+				<label class="control-label" for="sides">Sides/Directions</label>
 				<div class="controls">
 					<select class="form-control" name="sides" id="sides">
 		            	<option value="">Select sides...</option>

@@ -39,7 +39,7 @@
 	<div class="col-md-3">
 		
 		<div class="form-group">
-			<label class="control-label" for="sides">Sides</label>: @if ($carrier) {{{ $carrier->sides }}} @endif
+			<label class="control-label" for="sides">Sides/Directions</label>: @if ($carrier) {{{ $carrier->sides }}} @endif
 		</div>
 
 		<div class="form-group">
