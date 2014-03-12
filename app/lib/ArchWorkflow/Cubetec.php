@@ -15,7 +15,9 @@ function create_cubetec_manifest($carrier, $daw_pickup_path)
         
         for ($x = 1; $x <= $carrier->sides; $x++) {
 
-            $file = $daw_pickup_path . $carrier->archive_id . "-" . $x . ".imp.xml";
+            $side = ($x == 1) ? "A" : "B";
+
+            $file = $daw_pickup_path . $carrier->archive_id . "-" . $side . ".imp.xml";
 
             $version = '1.0';
             $encoding = 'UTF-8';
@@ -39,7 +41,7 @@ function create_cubetec_manifest($carrier, $daw_pickup_path)
                 $xml->startElement('QUALITYREPORT');
                 	//BASICDATA
                 	$xml->startElement('BASICDATA');
-                		$xml->writeElement('ARCHIVENUMBER', $carrier->archive_id . '-' . $x); 
+                		$xml->writeElement('ARCHIVENUMBER', $carrier->archive_id . '-' . $side); 
                 		$xml->writeElement('TITLE', 'PBC Analogue Digitization'); 
                 		$xml->writeElement('OPERATOR', 'QUADRIGA User'); 	
                 	$xml->endElement();
