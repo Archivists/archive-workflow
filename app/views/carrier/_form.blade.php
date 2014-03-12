@@ -27,7 +27,7 @@
 				<label class="control-label" for="sides">Sides/Directions</label>
 				<div class="controls">
 					<select class="form-control" name="sides" id="sides">
-		            	<option value="">Select sides...</option>
+		            	<option value="">Select sides/directions...</option>
 		                @foreach ($sides as $side)
 							@if ($action == 'create')
 		                		<option value="{{{ $side }}}" {{{ ( $side == $selectedSide) ? ' selected="selected"' : '' }}}>{{{ $side }}}</option>
@@ -38,7 +38,7 @@
 					</select>
 
 					<span class="help-block">
-						Select the sides for this carrier. Note: Select '2', if there are two recorded sides to this carrier. For example, an A and B side to an audio cassette.
+						Select the sides or directions for this carrier. Note: Select '2', if there are two recorded sides or two recorded directions for this carrier. For example, an A and B side to an audio cassette, or a 1/2 track two channel mono open-reel recording.
 					</span>
 				</div>
 			</div>
