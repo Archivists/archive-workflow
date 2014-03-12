@@ -59,7 +59,7 @@ class StatusActions
                 $result  = ($this->move_to_qc($carrier) ? true : false);
                 break;
             case "Complete":
-                $result  = ($this->create_sip($carrier) ? true : false);
+                $result  = ($this->complete($carrier) ? true : false);
                 break;
         }
 
@@ -131,9 +131,10 @@ class StatusActions
      * @param String $archive_id
      * @param String $name
      */
-    public function create_sip($carrier)
+    public function complete($carrier)
     {
-        Log::info("Create sip called");
+        //Log::info("Compelte called");
+        return true;
     }
 
     /**
