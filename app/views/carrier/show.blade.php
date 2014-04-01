@@ -63,6 +63,7 @@
 		var oTable;
 		$(document).ready(function() {
 			oTable = $('#artifacts').dataTable( {
+				"iDisplayLength": 20,
 				"sDom": "<r>t<p>",
 				"sPaginationType": "bootstrap",
 				"oLanguage": {
