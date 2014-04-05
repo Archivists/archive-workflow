@@ -122,8 +122,8 @@ class ArtifactController extends BaseController
             if (Input::hasFile('artifact')) {
 
                 $uploaded = Input::file('artifact')->getRealPath();
-                $count = $carrier->artifacts()->count() + 1;
-                $name = $carrier->archive_id . '-' . str_pad($count, 2, '0', STR_PAD_LEFT) . '.' . strtolower(Input::file('artifact')->getClientOriginalExtension());
+                //$count = $carrier->artifacts()->count() + 1;
+                $name =  $carrier->archive_id . '-' . uniqid() . '.' . strtolower(Input::file('artifact')->getClientOriginalExtension());
 
                 if ($this->fileRepo->move_file($carrier->archive_id, $uploaded, $name)) {
                     
