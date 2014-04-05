@@ -46,6 +46,8 @@
 			<label class="control-label" for="created_by">Created By</label>
 			<div class="controls">
 				@if ($carrier->created_by) {{{ $carrier->created_by }}} @endif
+				@if ($carrier->created_at) {{{ $carrier->created_at }}} @endif
+				
 			</div>
 		</div>
 		
@@ -53,6 +55,7 @@
 			<label class="control-label" for="updated_by">Updated By</label>
 			<div class="controls">
 				@if ($carrier->updated_by) {{{ $carrier->updated_by }}} @endif
+				@if ($carrier->updated_at) {{{ $carrier->updated_at }}} @endif
 			</div>
 		</div>
 
