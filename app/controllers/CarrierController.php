@@ -132,16 +132,19 @@ class CarrierController extends BaseController
             'sides' => 'required',
             'category'=> 'required'
             );
+
+        // Get the inputs, with some exceptions
+        $inputs = Input::except('csrf_token');
+        $inputs['shelf_number'] = str_pad($inputs['shelf_number'], 6, '0', STR_PAD_LEFT);
+        
         
         // Validate the inputs
-        $validator = Validator::make(Input::all(), $rules);
+        $validator = Validator::make($inputs, $rules);
 
         // Check if the form validates with success
         if ($validator->passes()) {
             
-            // Get the inputs, with some exceptions
-            $inputs = Input::except('csrf_token');
-
+        
             $category = $this->category->find($inputs['category']);
             $status = $this->status->where('order', 1)->first();
 
